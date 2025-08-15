@@ -1,0 +1,165 @@
+@import "../lib/bootstrap/less/bootstrap.less";
+
+/*
+Importando o estilos de componentes próprios que podem ser
+usados por varias views
+*/
+@import "components/import-font.less";
+@import "components/form.less";
+@import "components/alert.less";
+@import "components/badge.less";
+@import "components/growl.less";
+@import "components/label.less";
+@import "components/loader.less";
+@import "components/modal.less";
+@import "components/navbar.less";
+@import "components/table.less";
+@import "components/title.less";
+@import "components/tooltip.less";
+@import "components/change-system.less";
+
+/*
+Importando estilos próprios de cada view
+*/
+@import "usu/modal-dobra.less";
+@import "report/quality.less";
+
+body {
+  margin-top: 65px;
+}
+
+/*
+Alterando o estilo padrão das classes bootstrap
+*/
+@brand-success-light:  lighten(@brand-success, 30%);
+@brand-primary-light:  lighten(@brand-primary, 30%);
+@brand-warning-light:  lighten(@brand-warning, 25%);
+@brand-danger-light:   lighten(@brand-danger, 30%);
+
+@btn-success-light-color:  #ffffff;
+@btn-success-light-bg:      @brand-success-light;
+@btn-success-light-border:  darken(@brand-success-light, 5%);
+
+@btn-primary-light-color:  #ffffff;
+@btn-primary-light-bg:      @brand-primary-light;
+@btn-primary-light-border:  darken(@brand-primary-light, 5%);
+
+@btn-warning-light-color:  #ffffff;
+@btn-warning-light-bg:      @brand-warning-light;
+@btn-warning-light-border:  darken(@brand-warning-light, 5%);
+
+@btn-danger-light-color:  #ffffff;
+@btn-danger-light-bg:      @brand-danger-light;
+@btn-danger-light-border:  darken(@brand-danger-light, 5%);
+
+.btn-success-light {
+  color: @btn-success-light-color;
+  background-color: @btn-success-light-bg;
+  border-color: @btn-success-light-border;
+}
+.btn-success-light:hover {
+  background-color: @brand-success;
+  border-color: darken(@brand-success, 5%);
+}
+.btn-success-light:active {
+  background-color: darken(@brand-success, 20%);;
+  border-color: darken(@brand-success, 25%);
+}
+.btn.btn-success-light, .btn.btn-success-light:active {
+  outline: none;
+}
+.btn-success-active {
+  background-color: @brand-success;
+  border-color: darken(@brand-success, 5%);
+}
+
+
+.btn-primary-light {
+  color: @btn-primary-light-color;
+  background-color: @btn-primary-light-bg;
+  border-color: @btn-primary-light-border;
+}
+.btn-primary-light:hover {
+  background-color: @brand-primary;
+  border-color: darken(@brand-primary, 5%);
+}
+.btn-primary-light:active {
+  background-color: darken(@brand-primary, 20%);;
+  border-color: darken(@brand-primary, 25%);
+}
+.btn.btn-primary-light, .btn.btn-primary-light:active {
+  outline: none;
+}
+.btn-primary-active {
+  background-color: @brand-primary;
+  border-color: darken(@brand-primary, 5%);
+}
+
+
+.btn-warning-light {
+  color: @btn-warning-light-color;
+  background-color: @btn-warning-light-bg;
+  border-color: @btn-warning-light-border;
+}
+.btn-warning-light:hover {
+  background-color: @brand-warning;
+  border-color: darken(@brand-warning, 5%);
+}
+.btn-warning-light:active {
+  background-color: darken(@brand-warning, 20%);;
+  border-color: darken(@brand-warning, 25%);
+}
+.btn.btn-warning-light, .btn.btn-warning-light:active {
+  outline: none;
+}
+.btn-warning-active {
+  background-color: @brand-warning;
+  border-color: darken(@brand-warning, 5%);
+}
+
+
+.btn-danger-light {
+  color: @btn-danger-light-color;
+  background-color: @btn-danger-light-bg;
+  border-color: @btn-danger-light-border;
+}
+.btn-danger-light:hover {
+  background-color: @brand-danger;
+  border-color: darken(@brand-danger, 5%);
+}
+.btn-danger-light:active {
+  background-color: darken(@brand-danger, 20%);;
+  border-color: darken(@brand-danger, 25%);
+}
+.btn.btn-danger-light, .btn.btn-danger-light:active {
+  outline: none;
+}
+.btn-danger-active {
+  background-color: @brand-danger;
+  border-color: darken(@brand-danger, 5%);
+}
+
+.alert-meal {
+  margin-top: 40px;
+}
+
+/*
+Estilo da página principal
+*/
+.btn-quality {
+  margin-right: 15px;
+}
+
+.btn-circle {
+  margin: 3px 10px;
+  padding: 0px;
+  text-align: center;
+  border-width: 4px;
+  border-radius: 50%;
+}
+
+.row-divide {
+  width: 85%;
+  margin: 10px auto;
+  border-bottom: 1px solid #ddd; 
+}

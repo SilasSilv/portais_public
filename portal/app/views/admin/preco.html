@@ -1,0 +1,213 @@
+<div   ng-controller="PrecoCtrl as vm" ui-view>
+	<div class="container">
+
+		<div class="row">
+			<div class="col-xs-12">
+		
+				<div class="page-header">
+					<button class="btn btn-success"
+						style="float: right;"
+						ng-disabled="vm.ieCadastrar"
+						ng-click="vm.ieCadastrar = true; vm.tipoSalvar = 'create';">
+						<span class='glyphicon glyphicon-plus'></span>
+						Novo
+					</button>
+
+					<h1 class="title-primary text-center">Refeição Preço</h1>
+				</div>
+
+				<form name="formPreco" ng-if="vm.ieCadastrar == true">
+					<div class="row">
+						<div class="col-xs-12">
+							<p class="msg-required-field ">Campos obrigatórios ( * )</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12 col-sm-6">
+
+							<div class="form-group"
+								ng-class="{'has-error': vm.validateValor}">
+								<label for="idVlPreco">Valor: <span class="required-field">*</span></label>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="number" 
+										   id="idVlPreco" 
+										   name="nmVlPreco" 
+										   class="form-control" 
+										   ng-model="vm.preco.vl_refeicao" 
+										   placeholder="0,00"
+										   step="any"
+										   ng-required="true">
+								</div>
+
+								<span class="help-block" ng-show="vm.validateValor" ng-bind="vm.validateValorText"></span>
+							</div>
+
+						</div>
+					</div>
+					
+					<div class="row">
+
+						<div class="col-xs-12 col-sm-6">
+							<div class="form-group">
+								<label for="idDtInicio">Inicio: <span class="required-field">*</span></label>
+		
+								<div class="form-group"
+										ng-class="{'has-error': vm.validateDtIncio}">                                    
+									<div class="input-group">
+										<input class="form-control" 
+												name="nmInicio"
+												id="idDtInicio"
+												datetimepicker
+												ng-model="vm.preco.dt_vigencia_inicial"
+												options="vm.data_inicio"
+												placeholder="00/00/0000"
+												ng-pattern="vm.validPattern.data_hora"
+												ng-required="true">
+		
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+
+									<span class="help-block" ng-show="vm.validateDtIncio" ng-bind="vm.validateDtIncioText"></span>
+								</div> 
+
+							</div>
+						</div>
+		
+						<div class="col-xs-12 col-sm-6">
+							<div class="form-group">
+								<label for="idDtFinal">Até: <span class="required-field">*</span></label>
+		
+								<div class="form-group"
+									ng-class="{'has-error': vm.validateDtFinal}">                                    
+									<div class="input-group">
+										<input class="form-control" 
+												name="nmFinal"
+												id="idDtFinal"
+												datetimepicker
+												ng-model="vm.preco.dt_vigencia_final"
+												options="vm.data_final"
+												placeholder="00/00/0000"
+												ng-required="true">
+		
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div> 
+
+									<span class="help-block" ng-show="vm.validateDtFinal" ng-bind="vm.validateDtFinalText"></span>
+								</div>
+		
+							</div>
+						</div> 
+
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12">
+
+							<div class="checkbox">
+								<label>
+									<input type="checkbox"   
+										ng-checked="vm.preco.ie_situacao == 'A'"
+										ng-click="vm.preco.ie_situacao = vm.preco.ie_situacao == 'A' ? 'I' : 'A'"> 
+									<span style="font-weight: 600;">Situação do Preço</span>
+								</label>
+							</div>
+
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12">
+
+							<button class="btn btn-success"
+								ng-disabled="formPreco.$invalid || vm.loaderBtn"
+								ng-click="vm.fnSalvar(vm.preco)">
+								<span class="glyphicon glyphicon-floppy-saved"></span>
+								Salvar
+								<div class="loader-btn-success" ng-show="vm.loaderBtn"></div>
+							</button>
+
+							<button class="btn btn-danger"
+								ng-click="vm.ieCadastrar = false; vm.fnLimparPreco(vm.preco);">
+								<span class="glyphicon glyphicon-floppy-remove"></span>
+								Cancelar
+							</button>
+							
+							<button class="btn btn-primary " 
+									type="button"
+									ng-click="vm.fnLimparPreco(vm.preco)">
+								<span class="glyphicon glyphicon-erase"></span>
+								Limpar
+							</button>
+
+						</div>
+					</div>
+
+				</form>
+
+				<div class="row">
+					<div class="col-xs-12">
+					
+						<table class="table table-bordered table-hover table-owner tb-homeAdm">  
+							<thead>
+								<tr>
+									<th>Preço</th>
+									<th>Inicio</th> 
+									<th>Fim</th>
+									<th>Situação</th> 
+									<th>Alterar</th> 
+									<th>Excluir</th>                     
+								</tr>
+							</thead>
+													
+							<tbody ng-show="!vm.loader" ng-repeat="preco in vm.precos">
+								<tr>
+									<td><span ng-bind="preco.vl_refeicao | currency : 'R$ ' "></span></td>
+									<td><span ng-bind="preco.dt_vigencia_inicial"></span></td>
+									<td><span ng-bind="preco.dt_vigencia_final"></span></td>
+									<td><span ng-bind="preco.ie_situacao == 'A' ? 'Ativo' : 'Invativo'"></span></td>
+									<td>                       
+										<button class="btn btn-success" ng-click="vm.fnAlterarPreco(preco, $index)">
+												<span class="glyphicon glyphicon-pencil"></span>                                     
+										</button>
+									</td>
+									<td>
+										<button class="btn btn-danger" ng-click="vm.fnExcluir(preco, $index)"
+											ng-disabled="vm.loaderBtnDel && vm.nr_sequencia == preco.nr_sequencia">
+												<span class="glyphicon glyphicon-trash"></span>                                    
+												<div class="loader-btn-danger" ng-show="vm.loaderBtnDel && vm.nr_sequencia == preco.nr_sequencia"></div>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<div id="floatingBarsG" ng-show="vm.loader">
+							<div class="blockG" id="rotateG_01"></div>
+							<div class="blockG" id="rotateG_02"></div>
+							<div class="blockG" id="rotateG_03"></div>
+							<div class="blockG" id="rotateG_04"></div>
+							<div class="blockG" id="rotateG_05"></div>
+							<div class="blockG" id="rotateG_06"></div>
+							<div class="blockG" id="rotateG_07"></div>
+							<div class="blockG" id="rotateG_08"></div>
+						</div>
+		
+						<div ng-show="vm.precos.length == 0 && !vm.loader" class="alert alert-warning alert-meal" role="alert">
+							<span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+							<strong>Nenhum</strong> preço de refeição cadastrado!
+						</div>
+				
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>

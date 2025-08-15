@@ -1,0 +1,50 @@
+<div class="modal fade" id="modalAlterarSenha" tabindex="-1">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <form>
+              <div class="modal-header modal-header-primary">
+                    <button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <h4 class="modal-title text-center">Alterar Senha</h4>
+              </div>
+
+              <div class="modal-body">
+                  <p class="text-success" style="font-size: 1.3em; font-weight: 600; text-align: center;">Para continuar você deve alterar a senha!</p>
+
+                  <div class="form-group" ng-class="vm.powerPassword < 30 && altSenha.ds_senha.length > 0 ? 'has-error' : ''">
+                      <label for="senha_nova">Senha nova:</label>
+                      <input type="password" class="form-control" id="senha_nova" name="senha_nova" ng-model="altSenha.ds_senha" ng-keyup="vm.fnVerificarSenha(altSenha)">
+                      <span class="help-block" ng-if="vm.powerPassword < 30 && altSenha.ds_senha.length > 0">A senha deve ser no mínimo média</span>
+                  </div>
+
+                  <div class="form-group" ng-class="vm.fnSenhaiguais(altSenha.ds_senha, altSenha.ds_senha_confirma) ? '' : 'has-error'">
+                      <label for="senha_confirmar">Confirmar senha:</label>
+                      <input type="password" class="form-control" id="senha_confirmar" name="senha_confirmar" ng-model="altSenha.ds_senha_confirma">
+                      <span class="help-block" ng-if="!vm.fnSenhaiguais(altSenha.ds_senha, altSenha.ds_senha_confirma)">A senha não confere</span>
+                  </div>
+
+                  <label>Força senha:</label> <span ng-bind="vm.fnAlterarStatusSenha(vm.powerPassword, altSenha.ds_senha)"></span>
+                  <div class="progress">
+                      <div class="progress-bar" ng-class="vm.fnAlterarCorBarraSenha(vm.powerPassword)"
+                           aria-valuemin="0" aria-valuemax="100" style="width: {{vm.powerPassword}}%">
+                      </div>
+                  </div>
+
+              </div>
+
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">
+                      <span class="glyphicon glyphicon-remove"></span> Cancelar
+                  </button>
+                  <button type="submit" class="btn btn-success"
+                          ng-disabled="!vm.fnSenhaiguais(altSenha.ds_senha, altSenha.ds_senha_confirma) || vm.powerPassword < 30 || altSenha.ds_senha_confirma.length == 0"
+                          ng-click="vm.fnAlterarSenha(altSenha)">
+                      <span class="glyphicon glyphicon-floppy-saved"></span> Alterar
+                      <div class="loader-btn-success" ng-show="vm.loaderAlterarSenha"></div>
+                  </button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>

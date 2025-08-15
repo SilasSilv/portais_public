@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app="PortalRefeicao">
+    <head>
+        <title>Portal Refeição</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="./img/logo_min.png" sizes="16x16">
+
+        <!-- Importando Estulos -->
+        <!-- Prod <link rel="stylesheet" href="css/main.css"> -->
+        <!-- Dev <link rel="stylesheet/less" type="text/css" href="css/main.less"> -->  
+        <link rel="stylesheet" href="./lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="./lib/angular-growl-v2/build/angular-growl.min.css">
+        <link rel='stylesheet' href="lib/angular-loading-bar/build/loading-bar.min.css">
+        <link rel="stylesheet" href="./css/main.css">  
+    
+    </head>
+    <body>
+
+    <ui-view></ui-view> 
+
+    <!-- Importando Frameworks-->
+    <script src="./lib/jquery/dist/jquery.min.js"></script>
+    <script src="./lib/moment/min/moment.min.js"></script>
+    <script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./lib/moment/locale/pt-br.js"></script>
+    <script src="./lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src='./lib/angular/angular.min.js'></script>
+    <script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="./lib/ngstorage/ngStorage.min.js"></script>
+    <script src="./lib/angular-growl-v2/build/angular-growl.min.js"></script>
+    <script src="./lib/angular-eonasdan-datetimepicker/dist/angular-eonasdan-datetimepicker.min.js"></script>
+    <script src="./lib/angular-ui-mask/dist/mask.min.js"></script>
+    <script src="./node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="./node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src='lib/angular-loading-bar/build/loading-bar.min.js'></script>  
+
+    <!-- Setting less livereload
+    <script>less = { env: 'development'};</script>
+    <script src="lib/less/dist/less.min.js"></script>
+    <script>less.watch();</script> -->
+
+    <!-- importando module  -->
+    <script src='./app/app.js'></script>
+
+    <!-- Importando factory -->
+    <script src="./app/factorys/util.factory.js"></script>
+    <script src="./app/factorys/login.factory.js"></script>
+    <script src="./app/factorys/meal.factory.js"></script>
+    <script src="./app/factorys/people.factory.js"></script>
+    <script src="./app/factorys/price.factory.js"></script>
+    <script src="./app/factorys/category.factory.js"></script>
+    <script src="./app/factorys/opinion.factory.js"></script>
+    <script src="./app/factorys/quality.factory.js"></script>
+    <script src="./app/factorys/thirdFolds.factory.js"></script>
+    <script src="./app/factorys/menu.factory.js"></script>
+    <script src="./app/factorys/testPassword.js"></script>
+    <script src="./app/factorys/analyze.factory.js"></script>
+    <script src="./app/factorys/sector.factory.js"></script>
+    <script src="./app/factorys/turnstile.factory.js"></script>
+
+    <!-- Importando filter -->
+    <script src="./app/filters/reduceString.filter.js"></script>
+    <script src="./app/filters/ucwords.filter.js"></script> 
+
+    <!-- importando controller -->
+    <script src='./app/controllers/homeprincipal.controller.js'></script> 
+
+    <script src='./app/controllers/administrador/sidebarMenuAdmin.controller.js'></script> 
+    <script src='./app/controllers/usuario/sidebarUsuario.controller.js'></script>    
+
+    <script src="./app/controllers/usuario/sugestao.controller.js"></script>
+    <script src="./app/controllers/usuario/terceiros.controller.js"></script>
+    <script src="./app/controllers/usuario/qualidade.controller.js"></script>
+    <script src="./app/controllers/usuario/configuracao.controller.js"></script>
+
+    <script src="./app/controllers/administrador/cadRefeicao.controller.js"></script> 
+    <script src="./app/controllers/administrador/sugestaoAdmin.controller.js"></script> 
+    <script src="./app/controllers/administrador/preco.controller.js"></script> 
+
+    <script src="./app/controllers/report/relatorioCatracaCtrl.js"></script> 
+    <script src="./app/controllers/report/relatorioPessoalCtrl.js"></script>
+    <script src="./app/controllers/report/relatorioRefeicaoCtrl.js"></script>
+    <script src="./app/controllers/report/relatorioQualidadeCtrl.js"></script>
+    <script src="./app/controllers/report/relatorioRhCtrl.js"></script>
+    <script src="./app/controllers/report/relatorioDobrasCtrl.js"></script>
+    <script src="./app/controllers/report/relatorioRefeicaoLivreCtrl.js"></script>
+
+    <script src="./app/controllers/usuario/homeUsu.controller.js"></script>  
+
+</body>
+</html>
+

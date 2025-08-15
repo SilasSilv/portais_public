@@ -1,0 +1,115 @@
+<div class="modal fade" id="myModalRefAnalitico" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"
+                style="float: right;">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+
+          <button type="button" class="btn btn-warning"
+                style="float: right; margin-right: 5px;"
+                ng-click="vm.fnPrintModal()">
+              <span class="glyphicon glyphicon-print"></span>
+          </button>  
+
+          <h4 class="modal-title">Dados da Refeição</h4>                  
+        </div>
+
+        <div class="modal-body">
+
+          <div style="height: 100px;" ng-show="vm.loaderAnalitico">
+              <div id="floatingBarsG">
+                  <div class="blockG" id="rotateG_01"></div>
+                  <div class="blockG" id="rotateG_02"></div>
+                  <div class="blockG" id="rotateG_03"></div>
+                  <div class="blockG" id="rotateG_04"></div>
+                  <div class="blockG" id="rotateG_05"></div>
+                  <div class="blockG" id="rotateG_06"></div>
+                  <div class="blockG" id="rotateG_07"></div>
+                  <div class="blockG" id="rotateG_08"></div>
+              </div>
+          </div>            
+          
+          <div ng-show="!vm.loaderAnalitico">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <caption>Soliticações</caption>
+                <tr>
+                  <th>Nº Crachá</th>
+                  <th>Nome</th>
+                  <th>Setor</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="solicitacao in vm.refeicaoAnalitico.solicitacoes">
+                  <td><span ng-bind="solicitacao.nr_cracha"></span></td>
+                  <td><span ng-bind="solicitacao.nm_pessoa_fisica | Ucwords"></span></td>
+                  <td><span ng-bind="solicitacao.ds_setor"></span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div ng-show="vm.refeicaoAnalitico.solicitacoes == 0  && !vm.loader" class="alert alert-warning" role="alert">
+                <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                <strong>Nenhuma</strong> solicitação foi feita!
+            </div> 
+
+            <table class="table table-bordered table-hover">
+              <thead>
+                <caption>Dobras e Terceiros</caption>
+                <tr>
+                  <th>Tipo Refeição</th>
+                  <th>Nome</th>
+                  <th>Responsável</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="dobra in vm.refeicaoAnalitico.dobras">
+                  <td><span ng-bind="dobra.ds_dobra"></span></td>
+                  <td><span ng-bind="dobra.nm_pessoa | Ucwords"></span></td>
+                  <td><span ng-bind="dobra.nm_resp | Ucwords"></span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div ng-show="vm.refeicaoAnalitico.dobras == 0  && !vm.loader" class="alert alert-warning" role="alert">
+                <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                <strong>Nenhuma</strong> solicitação de dobra ou terceiros encontrada!
+            </div> 
+
+            <table class="table table-bordered table-hover">
+              <thead>
+                <caption>Trocas</caption>
+                <tr>
+                  <th>Nº Crachá</th>
+                  <th>Nome</th>
+                  <th>Setor</th>
+                  <th>Alteração</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="troca in vm.refeicaoAnalitico.trocas">
+                  <td><span ng-bind="troca.nr_cracha"></span></td>
+                  <td><span ng-bind="troca.nm_pessoa_fisica | Ucwords"></span></td>
+                  <td><span ng-bind="troca.ds_setor"></span></td>
+                  <td><span ng-bind="troca.ds_ref_alt"></span></td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div ng-show="vm.refeicaoAnalitico.trocas == 0  && !vm.loader" class="alert alert-warning" role="alert">
+                <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                <strong>Nenhuma</strong> troca foi feita!
+            </div> 
+          <div>
+            
+        </div>
+
+      </div>
+    </div>
+  </div>

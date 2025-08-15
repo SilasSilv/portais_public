@@ -1,0 +1,89 @@
+<div ng-controller="homeUsuCtrl as vm" ui-view>
+
+    <div class="container">
+        <div class="col-xs-3 col-sm-12 col-md-12 col-lg-12">
+
+            <p class="text-center">
+                <img src="./img/logo_principal/logo_portal_refeicao.png"  class="" >
+            </p>
+        
+            <table class="table table-bordered table-owner tb-cardapio table-responsive">                               
+                <thead>
+                    <tr class="tabe">
+                        <th >Data</th>
+                        <th>Dia</th> 
+                        <th>Cardápio</th>
+                        <th>Tipo</th>                           
+                        <th>Finaliza</th>
+                        <th>Solicitar</th>
+                        <th>Alterar</th>                        
+                    </tr>
+                </thead>
+
+                <tbody ng-show="!vm.loader">
+                    <tr ng-repeat="refeicao in vm.refeicoes"
+                        ng-hide="vm.fnVerificarPermissao(refeicao) == 'FDS/Feriado-N'">
+                        <td><span ng-bind="refeicao.dt_refeicao"></span></td>
+                        <td><span ng-bind="refeicao.ds_dia"></span></td>
+                        <td><span ng-bind="refeicao.ds_refeicao"></span></td>
+                        <td><span ng-bind="refeicao.ds_tipo_refeicao"></span></td>                        
+                        <td><span ng-bind="refeicao.dt_final"></span></td>                        
+                        <td>
+                            <button class="btn tooltip1" ng-class="vm.fnStatusRefeicao(refeicao.ie_solicitado, 'color')"
+                                    ng-click="vm.fnSolicitar(refeicao)"
+                                    ng-disabled="vm.fnVerificarPermissao(refeicao) != '' || (vm.loaderBtn && refeicao.nr_refeicao == vm.nr_refeicao)"
+                                    data-toggle="tooltip" data-placement="top">
+                                <span ng-class="vm.fnStatusRefeicao(refeicao.ie_solicitado, 'icon')"></span>
+                                <span ng-bind="vm.fnStatusRefeicao(refeicao.ie_solicitado, 'description')"></span>
+                                <div ng-class="vm.fnStatusRefeicao(refeicao.ie_solicitado, 'loader')" ng-show="vm.loaderBtn && refeicao.nr_refeicao == vm.nr_refeicao"></div>
+
+                                <span class="tooltiptext" ng-if="refeicao.ie_solicitado == 0 && vm.fnVerificarPermissao(refeicao) == 'Expirado'">Não pode mais solicitar</span>
+                                <span class="tooltiptext" ng-if="refeicao.ie_solicitado == 1 && vm.fnVerificarPermissao(refeicao) == 'Expirado'">Não pode mais excluir</span>
+                                <span class="tooltiptext" ng-if="vm.fnVerificarPermissao(refeicao) == 'FDS/Feriado-N'">Você não tem permissão para solicitar refeição de final de semana ou feriado</span>
+                            </button>                            
+                        </td>                        
+                        <td>
+                            <button class="btn btn-default"
+                                    data-toggle="modal" 
+                                    data-target="#myModalAltCardapio"
+                                    data-backdrop="static" 
+                                    data-keyboard="false"
+                                    ng-disabled="refeicao.ie_solicitado == 0" 
+                                    ng-click="vm.fnMostraRefeicaoAlt(refeicao)">
+                                <span ng-show="refeicao.ie_ref_alt == 0">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    Alterar   
+                                </span>
+
+                                <span ng-show="refeicao.ie_ref_alt == 1" style="color: #5cb85c">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    Alterado  
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table> 
+
+            <div id="floatingBarsG" ng-show="vm.loader">
+                <div class="blockG" id="rotateG_01"></div>
+                <div class="blockG" id="rotateG_02"></div>
+                <div class="blockG" id="rotateG_03"></div>
+                <div class="blockG" id="rotateG_04"></div>
+                <div class="blockG" id="rotateG_05"></div>
+                <div class="blockG" id="rotateG_06"></div>
+                <div class="blockG" id="rotateG_07"></div>
+                <div class="blockG" id="rotateG_08"></div>
+            </div>
+
+            <div ng-show="vm.refeicoes.length == 0 && !vm.loader" class="alert alert-warning alert-meal" role="alert">
+                <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                <strong>Nenhuma</strong> refeição cadastrada!
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- Modals --> 
+    <div ng-include="'./app/views/usu/modalAltRef.html'"></div>
+</div>

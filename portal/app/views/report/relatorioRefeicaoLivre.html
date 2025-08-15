@@ -1,0 +1,163 @@
+<div ng-controller="relatorioRefeicaoLivreCtrl as vm" ui-view>
+
+    <div class="container" style="margin-top: -45px;">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <form  name="form" class="clearfix" style="border-bottom: 1px solid #a0a0a0; margin-bottom: 25px;">       
+                    <div class="col-xs-12 col-xs-offset-0 col-sm-4 col-sm-offset-3">
+                        <div class="form-group">
+                            <label for="idDataRefeicao">Data Refeição:</label>    
+                                                            
+                            <div class="input-group">
+                                <input class="form-control"
+                                    id="idDataRefeicao"
+                                    datetimepicker
+                                    ng-model="vm.params.dt_refeicao"
+                                    options="vm.options.data"
+                                    placeholder="00/00/0000"
+                                    ng-required="true"
+                                    readonly>
+            
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>  
+                        
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4">
+                        <button class="btn btn-primary" style="margin-top: 25px;"
+                            ng-disabled="form.$invalid"
+                            ng-click="vm.fnSearch(vm.params)">
+                            Pesquisar
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>                  
+                </form>
+
+                <!-- Lista -->
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+
+                <div ng-hide="vm.loader" ng-repeat="meal in vm.meals">
+                    
+                    <!-- Resumo -->
+
+                    <div class="jumbotron text-center" style="padding: 15px">
+                        <p>
+                            <label>Total: </label> <span class="label label-primary">{{meal.lista.solicitacoes.length + meal.lista.dobras.length}}</span>
+                        </p>
+
+                        <p style="font-size: 1em; margin: 0px;"> 
+                            <label>Solicitações: </label> <span class="label label-default" style="margin-right: 10px;">{{meal.lista.solicitacoes.length}}</span>
+                            <label>Dobras: </label> <span class="label label-default" style="margin-right: 10px;">{{meal.lista.dobras.length}}</span>
+                            <label>Trocas: </label> <span class="label label-default" style="margin-right: 10px;">{{meal.lista.trocas.length}}</span>
+                        </p>
+                    </div>
+
+                    <!-- Solicitações -->
+
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <caption>Soliticações</caption>
+                            <tr>
+                                <th>Nº Crachá</th>
+                                <th>Nome</th>
+                                <th>Setor</th>
+                            </tr>
+                        </thead>
+            
+                        <tbody>
+                            <tr ng-repeat="solicitacao in meal.lista.solicitacoes">
+                                <td><span ng-bind="solicitacao.nr_cracha"></span></td>
+                                <td><span ng-bind="solicitacao.nm_pessoa_fisica | Ucwords"></span></td>
+                                <td><span ng-bind="solicitacao.ds_setor"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+        
+                    <div ng-show="meal.lista.solicitacoes.length == 0" class="alert alert-warning" role="alert">
+                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                        <strong>Nenhuma</strong> solicitação foi feita!
+                    </div>
+
+                    <!-- Dobras e Terceiros  -->
+
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <caption>Dobras e Terceiros</caption>
+                            <tr>
+                                <th>Tipo Refeição</th>
+                                <th>Nome</th>
+                                <th>Responsável</th>
+                            </tr>
+                        </thead>
+            
+                        <tbody>
+                            <tr ng-repeat="dobra in meal.lista.dobras">
+                                <td><span ng-bind="dobra.ds_dobra"></span></td>
+                                <td><span ng-bind="dobra.nm_pessoa | Ucwords"></span></td>
+                                <td><span ng-bind="dobra.nm_resp | Ucwords"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+            
+                    <div ng-show="meal.lista.dobras.length == 0" class="alert alert-warning" role="alert">
+                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                        <strong>Nenhuma</strong> solicitação de dobra ou terceiros encontrada!
+                    </div>
+
+                    <!-- Trocas -->
+
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <caption>Trocas</caption>
+                            <tr>
+                                <th>Nº Crachá</th>
+                                <th>Nome</th>
+                                <th>Setor</th>
+                                <th>Alteração</th>
+                            </tr>
+                        </thead>
+            
+                        <tbody>
+                            <tr ng-repeat="troca in meal.lista.trocas">
+                                <td><span ng-bind="troca.nr_cracha"></span></td>
+                                <td><span ng-bind="troca.nm_pessoa_fisica | Ucwords"></span></td>
+                                <td><span ng-bind="troca.ds_setor"></span></td>
+                                <td><span ng-bind="troca.ds_ref_alt"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        
+                    <div ng-show="meal.lista.trocas.length == 0" class="alert alert-warning" role="alert">
+                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                        <strong>Nenhuma</strong> troca foi feita!
+                    </div>
+
+                </div>
+
+                <div ng-hide="vm.meals.length > 0 || vm.loader" class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhuma</strong> refeição foi encontrada!
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Menssagem para os usuários -->
+    <div growl></div>
+
+</div>

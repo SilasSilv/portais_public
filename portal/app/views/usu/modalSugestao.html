@@ -1,0 +1,57 @@
+<div class="modal fade" id="myModalsugestao" tabindex="-1" 
+     role="dialog" aria-labelledby="myModalLabel" ng-controller="SugestaoCtrl as vm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" class="btn btn-danger btn-modal-close" ng-click="vm.fnLimparOpiniao(vm.opiniao)" data-dismiss="modal" aria-label="Close">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+
+                <h4 class="modal-title modal-title-light text-center">
+                    Sugestão
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form name="formSugestao">
+                    <div class="col-xs-12">
+                        <p class="msg-required-field">Campos obrigatórios ( * )</p>
+                    </div>
+                    
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="idTitulo">Tipo: <span class="required-field">*</span></label>
+                        <select class="form-control"
+                                id="idTitulo"
+                                ng-model="vm.opiniao.cd_tipo_opiniao"
+                                ng-options="item.cd_categoria as item.ds_categoria for item in vm.tipo_opiniao"
+                                ng-required="true">                                                   
+                            <option value=""> Selecione um Tipo </option>                                                
+                        </select>                                            
+                    </div>
+                                       
+                    <div class="form-group col-xs-12"> 
+                        <label for="idDescricao">Descrição: <span class="required-field">*</span></label>
+                        <textarea class="form-control"    
+                                  id="idDescricao"
+                                  rows="3"
+                                  ng-model="vm.opiniao.ds_opiniao"
+                                  placeholder="Descrição"
+                                  ng-required="true"></textarea>
+                    </div>
+                    
+                    <div class="col-xs-12 text-center">
+                        <button class="btn btn-success"
+                                ng-disabled="formSugestao.$invalid"
+                                ng-click="vm.fnCadastrar(vm.opiniao)">
+                            <span class="glyphicon glyphicon-volume-up"></span>
+                            Opinar
+                            <div class="loader-btn-success" ng-show="vm.loaderBtnOpinar"></div>
+                        </button>                                                          
+                    </div>
+                </form>
+                
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

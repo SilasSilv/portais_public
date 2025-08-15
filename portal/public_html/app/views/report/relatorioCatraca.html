@@ -1,0 +1,249 @@
+<div ng-controller="relatorioCatracaCtrl as vm" ui-view>
+    <div class="container" ng-init="vm.params = {}">
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="page-header">
+                    <h1 class="title-primary text-center">Relatório Acesso Catraca</h1>
+                </div>
+
+                <form name="formAccess">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="msg-required-field">Campos obrigatórios ( * )</p>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="form-group">
+                                <label for="idInicio">Inicio: <span class="required-field">*</span></label>
+            
+                                <div class="input-group">
+                                    <input class="form-control" 
+                                            name="nmInicio"
+                                            id="idDtInicio"
+                                            datetimepicker
+                                            ng-model="vm.params.dt_inicio"
+                                            options="vm.options.data"
+                                            placeholder="00/00/0000"
+                                            ng-required="true"
+                                            readonly>
+    
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>     
+                                                        
+                            </div>
+                        </div>
+                
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="form-group">
+                                <label for="idDataFinal">Até: <span class="required-field">*</span></label>    
+                                                                
+                                <div class="input-group">
+                                    <input class="form-control" 
+                                            name="nmFinal"
+                                            id="idDtFinal"
+                                            datetimepicker
+                                            ng-model="vm.params.dt_final"
+                                            options="vm.options.data"
+                                            placeholder="00/00/0000"
+                                            ng-required="true"
+                                            readonly>
+    
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>  
+                            
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="form-group">
+                                <label for="idHorario">Horário: <span class="required-field">*</span></label>
+    
+                                <select class="form-control" 
+                                        name="horario"
+                                        id="idHorario"
+                                        ng-model="vm.params.cd_horario"
+                                        ng-required="true"
+                                        ng-options="hour.code as hour.description for hour in vm.hours">
+                                    <option value="">Selecione</option>                          
+                                </select>  
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-11">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button type="button" class="btn btn-primary" style="margin-right: 10px;"
+                                        ng-hide="vm.moreFilters" ng-click="vm.moreFilters=true;">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" style="margin-right: 10px;"
+                                        ng-show="vm.moreFilters" ng-click="vm.moreFilters=false;">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                    <label>Mais filtros</label>
+                                </div>
+    
+                                <div class="panel-body" ng-show="vm.moreFilters">
+    
+                                    <div class="col-xs-12 col-sm-8">
+                                        <div class="form-group">
+                                            <label for="idNome">Pesquise por:</label>
+                                            <input type="text" id="idNome" class="form-control" ng-model="vm.params.cracha_cartao_nome" 
+                                                placeholder="nº crachá, nº cartão ou nome">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-xs-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="idSetor">Setor:</label>
+                
+                                            <select class="form-control" 
+                                                    name="setor"
+                                                    id="idSetor"
+                                                    ng-model="vm.params.cd_setor"
+                                                    ng-options="sector.cd_setor as sector.ds_setor for sector in vm.sectors">
+                                                <option value="">
+                                                    {{ vm.loaderSector ? 'Carregando...' : 'Selecione'}}
+                                                </option>                       
+                                            </select>  
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-xs-12 col-sm-3">
+                                        <div class="form-group">
+                                            <label for="idOperadorTempo">Tempo:</label>
+                
+                                            <select class="form-control" 
+                                                    name="operadorTempo"
+                                                    id="idOperadorTempo"
+                                                    ng-model="vm.params.op_tempo"
+                                                    ng-options="operator.code as operator.description for operator in vm.operatorTime">
+                                                <option value="">Selecione</option>                          
+                                            </select>  
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-xs-12 col-sm-4 col-md-2">
+                                        <div class="form-group" style="margin-top: 25px;">
+                                                                                                                                           
+                                            <input type="text" class="form-control"
+                                                name="tempoDentro"
+                                                id="idTempoDentro"
+                                                placeholder="99:99:99"
+                                                ui-mask-placeholder
+                                                ui-mask-placeholder-char="_"    
+                                                ui-mask="99:99:99"
+                                                model-view-value="true"
+                                                ng-pattern="/\d{2}:\d{2}:\d{2}/"
+                                                ng-required="vm.params.op_tempo"
+                                                ng-disabled="!vm.params.op_tempo"
+                                                ng-model="vm.params.tm_dentro">
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-1">
+                            <button class="btn btn-primary btn-lg" type="submit"
+                                    ng-disabled="formAccess.$invalid"
+                                    ng-click="vm.fnSearch(vm.params)">                                  
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div> 
+        
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div class="jumbotron" style="padding: 15px;">
+                            <h3 style="margin-top: 10px;">Total de Acesso: <span class="label label-primary" ng-bind=" vm.accesses.qt_total"></span></h3>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <table class="table table-striped table-condensed table-responsive">
+                    <thead> 
+                        <tr>
+                            <th>Nº Crachá</th>
+                            <th>Nome</th>
+                            <th>Entrada</th>
+                            <th>Saída</th>
+                            <th>Tempo</th>
+                            <th>Horário</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-hide="vm.loader">
+                        <tr ng-repeat="access in vm.accesses.acessos">
+                            <td>{{ access.nr_cracha ? access.nr_cracha : access.nr_cartao }}</td>
+                            <td>{{ access.nm_pessoa_fisica ? access.nm_pessoa_fisica : access.ds_setor }}</td>
+                            <td>{{ access.dt_entrada }}</td>
+                            <td>{{ access.dt_saida }}</td>
+                            <td>{{ access.tm_dentro }}</td>
+                            <td>{{ access.ds_horario }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div ng-show="vm.firstSearch && !vm.loader" class="alert alert-info" role="alert">                      
+                    <span class="glyphicon glyphicon-info-sign alert-icon"></span>
+                    <strong>Pesquise</strong> os dados de acesso!
+                </div>
+                
+                <div ng-show="vm.accesses.length == 0 && !vm.firstSearch && !vm.loader" class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhuma</strong> acesso foi encontrada!
+                </div> 
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+
+                <div class="text-center" ng-show="vm.displayLoaderPlus && !vm.loader"
+                    style="margin-top: 10px; margin-bottom: 10px;">
+                    <button class="btn btn-default" ng-click="vm.fnSearchPlus(vm.params, 'back')"
+                        ng-disabled="vm.page == 0">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        Anterior
+                    </button>
+                    <button class="btn btn-default" ng-click="vm.fnSearchPlus(vm.params, 'next')"
+                        ng-disabled="vm.disabledNext">
+                        Próximo
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    
+    </div>
+</div>

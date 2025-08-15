@@ -1,0 +1,132 @@
+<div ng-controller="SidebarUsuarioCtrl as vm" ng-hide="vm.authenticationVerificationLoader">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar-feak" >
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" 
+                        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" 
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">
+                    <img alt="Brand" src="./img/logo_second.png" style="width: 40px;">
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav nav-link menu-item">
+                    <li ng-class="{'active': vm.menuItem == 'cardapio'}">                        
+                        <a ng-click="vm.fnRota('/solicitante/home')"                           
+                            style="cursor: pointer;">
+                            Cardápio
+                        </a>
+                    </li>
+                    <li ng-if="vm.mostrarDobra == 'S'">
+                        <a data-toggle="modal" 
+                           data-target="#myModalDobra"
+                           data-backdrop="static" 
+                           data-keyboard="false">
+                            Dobras/Terceiros
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="modal" 
+                           data-target="#myModalsugestao"
+                           data-backdrop="static" 
+                           data-keyboard="false">
+                            Sugestão
+                        </a>
+                    </li>
+                    <li class="dropdown"
+                        ng-class="{'active': vm.menuItem == 'relatorio'}">
+                        <a class="dropdown-toggle " 
+                            data-toggle="dropdown" 
+                            role="button" 
+                            aria-haspopup="true" 
+                            aria-expanded="false">
+                            Consultas 
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            
+                            <li>
+                                <a ng-click="vm.fnRota('/solicitante/relatorio/pessoal')"
+                                    style="cursor: pointer;">
+                                    Refeições Pessoais
+                                </a>
+                            </li>
+
+                            <li ng-if="vm.consulta_rh == 'S'">
+                                <a ng-click="vm.fnRota('/solicitante/relatorio/rh')"
+                                    ng-class="{'sidebar-select': vm.menuItem == 'relatorioDiverso'}"
+                                    style="cursor: pointer;">
+                                    Refeições Folha de Pagamento
+                                </a>
+                            </li>
+
+                            <li ng-if="vm.consulta_catraca == 'S'">
+                                <a ng-click="vm.fnRota('/solicitante/relatorio/catraca')"
+                                    ng-class="{'sidebar-select': vm.menuItem == 'relatorioCatraca'}"
+                                    style="cursor: pointer;">
+                                    Acesso Catraca
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li  ng-click="vm.fnFindSystemsAccess()">                        
+                        <a style="cursor: pointer;">
+                            Trocar de Sistema
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right nav-link">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle dropdown-user" 
+                           data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="true">     
+                            <img ng-src="{{vm.photoUser}}" class="item-user img-circle">                       
+                            <span ng-bind="vm.nameUser"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu menu-item">                                            
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <button class="btn btn-danger btn-sair" 
+                                    ng-disabled="vm.loaderLogout" ng-click="vm.fnLogout()">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                    Sair
+                                    <div class="loader-btn-danger" ng-show="vm.loaderLogout"></div>
+                                </button>                                   
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+   
+    <ui-view></ui-view>
+
+    <!-- Modals -->
+    <div ng-include="'./app/views/usu/modalSugestao.html'"></div>
+    <div ng-include="'./app/views/usu/modalDobra.html'"></div>
+
+    <!-- Menssagem para os usuários -->
+    <div growl></div>
+
+    <!-- Modals -->
+    <div ng-include="'./app/views/modals/modal-system.html'"></div>
+
+    <script type="text/javascript">
+        $('.dropdown-menu .btn-sair').click(function(e) {
+            e.stopPropagation();
+        });
+    </script>
+</div>
+

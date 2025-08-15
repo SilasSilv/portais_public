@@ -1,0 +1,170 @@
+<div class="modal fade" id="myModalDobra" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-controller="TerceirosCtrl as vm">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button ng-if="!vm.nova_dobra && vm.dobras.length > 0" class="btn btn-primary btn-fold"
+                        ng-click="vm.nova_dobra = true; vm.fnLimpar(vm.dobra, true)" style="margin-right: -86.5px;">
+                    <span class="badge badge-red" ng-bind="vm.dobras.length"></span>
+                    Solicitações
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+
+                <button ng-if="vm.nova_dobra" class="btn btn-success btn-fold"
+                        ng-click="vm.fnNovaDobra()" style="margin-right: -20px;">
+                    Nova
+                    <span class="glyphicon glyphicon-cutlery"></span>
+                </button>
+
+                <button type="button" class="btn btn-danger btn-modal-close" ng-click="vm.fnFecharModal()" data-dismiss="modal" aria-label="Close">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+
+                <h4 class="modal-title modal-title-light text-center" id="myDobra">
+                    Dobras / Terceiros
+                </h4>                
+            </div>
+
+            <div class="modal-body">
+                
+                <div id="floatingBarsG" ng-show="vm.loaderMenu && vm.nova_dobra">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>  
+
+                <div ng-if="vm.nova_dobra && !vm.loaderMenu">
+                    <ul class="list-group" >
+                        <li class="list-group-item list-fold" ng-repeat="dobra in vm.dobras"
+                            style="padding-top: 20px; padding-bottom: 15px;">                    
+                            <p>
+                                <label>Tipo:</label> {{dobra.ie_terceiro_dobra == 'D' ? 'Dobras' : 'Terceiros'}}
+                                <span class="list-fold-date">
+                                        <label>Data:</label> {{dobra.dt_refeicao}}
+                                </span> 
+                                
+                                <button class="btn btn-danger btn-manipulation" ng-click="vm.fnExcluir(dobra)"
+                                    ng-disabled="vm.loaderBtn && vm.nr_sequencia == dobra.nr_sequencia">
+                                    <span class="glyphicon glyphicon-trash"  ng-hide="vm.loaderBtn && vm.nr_sequencia == dobra.nr_sequencia"></span>
+                                    <div class="loader-btn-danger" ng-show="vm.loaderBtn && vm.nr_sequencia == dobra.nr_sequencia"></div>                                                                    
+                                </button>
+                            </p>
+                            <p>
+                                <label>Pessoa:</label> {{dobra.nm_pessoa_fisica.length > 0 ? dobra.nm_pessoa_fisica : dobra.nm_pessoa_cartao}}
+
+                                <button class="btn btn-primary btn-manipulation" style="margin-top: 2px;"
+                                        ng-click="vm.fnCopiaAlterar(dobra, $index)">
+                                    <span class="glyphicon glyphicon-pencil"></span>                                                                 
+                                </button>
+                            </p>                         
+                        </li>
+                    </ul>                   
+                </div> 
+
+                <form name="formDobra" ng-if="!vm.nova_dobra">
+                    <div class="col-xs-12">
+                        <p class="msg-required-field ">Campos obrigatórios ( * )</p>
+                    </div>
+
+                    <div class="form-group col-xs-12">                        
+                        <label for="idTipo">Tipo: <span class="required-field">*</span></label>     
+                    
+                        <select class="form-control"                                 
+                                id="idTipo"
+                                ng-model="vm.dobra.ie_terceiro_dobra"
+                                ng-options="item.cd_categoria as item.ds_categoria for item in vm.tipo_terceiro"
+                                ng-change="vm.fnLimpar(vm.dobra)"
+                                ng-required="true">
+                            <option value="">Selecione um Tipo</option>                                
+                        </select>
+                    </div>
+
+                    <div ng-if="vm.dobra.ie_terceiro_dobra == 'T' || vm.dobra.ie_terceiro_dobra == 'D'">                                        
+                        <div class="form-group col-xs-5"
+                             ng-if="vm.dobra.ie_terceiro_dobra == 'D'">
+                            <label for="idcracha">Nº matrícula: <span class="required-field">*</span></label>
+                        
+                            <input class="form-control" 
+                                    type="text"                                    
+                                    id="idcracha"
+                                    placeholder="Digite o nº do matrícula"
+                                    ng-model="vm.dobra.nr_cracha"
+                                    ng-disabled="vm.dobra.nr_cartao.length > 0"                            
+                                    ng-required="vm.dobra.nr_cartao.length == 0">                           
+                        </div>
+
+                        <div class="col-xs-2"
+                             style="padding: 0px;"
+                             ng-if="vm.dobra.ie_terceiro_dobra == 'D'">
+                             <p class="text-center" style="margin-top: 33px; font-weight: 600;">OU</p>
+                        </div>
+
+                        <div class="form-group"
+                             ng-class="{'col-xs-5': vm.dobra.ie_terceiro_dobra == 'D','col-xs-12': vm.dobra.ie_terceiro_dobra == 'T'}">
+                            <label for="idcracha">Nº cartão do setor: <span class="required-field">*</span></label>
+                        
+                            <input class="form-control" 
+                                    type="text"                                   
+                                    id="idcracha"
+                                    placeholder="Digite o nº do cartão"
+                                    ng-model="vm.dobra.nr_cartao"
+                                    ng-disabled="vm.dobra.nr_cracha.length > 0"                                                           
+                                    ng-required="vm.dobra.nr_cracha == 0">                           
+                        </div>
+
+                        <div class="form-group col-xs-12"
+                             ng-if="vm.dobra.ie_terceiro_dobra == 'T' || vm.dobra.nr_cartao.length > 0">
+                            <label for="idNome">Nome: <span class="required-field">*</span></label>
+
+                            <input class="form-control" 
+                                    type="text"                                
+                                    id="idNome"
+                                    placeholder="Informe o nome da pessoa"
+                                    ng-model="vm.dobra.nm_pessoa_cartao"
+                                    ng-disabled="vm.dobra.nr_cracha.length > 0"                               
+                                    ng-required="vm.dobra.nr_cartao.length > 0">                       
+                        </div>
+
+                        <div class="col-xs-12">                        
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Descrição</th>
+                                    <th>Solicitar <span class="required-field">*</span></th>
+                                </tr>
+                                <tr ng-repeat="refeicao in vm.refeicoes">
+                                    <td>{{ refeicao.dt_refeicao }}</td>
+                                    <td>{{ refeicao.ds_refeicao }}</td>
+                                    <td class="text-center">
+                                        <button type="button"  class="btn btn-default"
+                                                ng-class="{'btn-default': vm.dobra.dt_refeicao != refeicao.dt_refeicao, 
+                                                            'btn-success': vm.dobra.dt_refeicao == refeicao.dt_refeicao}"
+                                                ng-click="vm.dobra.dt_refeicao = refeicao.dt_refeicao">
+                                            <span class="glyphicon glyphicon-cutlery"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>                             
+
+                    <div class="text-center">
+                        <button class="btn btn-success"
+                                ng-disabled="formDobra.$invalid || !vm.dobra.dt_refeicao || vm.loaderBtn"
+                                ng-click="vm.fnGateway(vm.dobra)">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                            Salvar
+                            <div class="loader-btn-success" ng-show="vm.loaderBtn"></div>
+                        </button>
+                    </div>                  
+                    
+                </form>
+
+            </div>                         
+        </div>
+    </div>
+</div>

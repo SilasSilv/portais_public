@@ -1,0 +1,143 @@
+<div ng-controller="relatorioRhCtrl as vm" ui-view>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="page-header">
+                    <h1 class="title-primary text-center">Relatório Refeições Folha de Pagamento</h1>
+                </div>
+
+                <form name="formPesqRh">
+                    <div class="col-xs-12">
+                        <p class="msg-required-field">Campos obrigatórios ( * )</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="idInicio">Inicio: <span class="required-field">*</span></label>
+        
+                            <div class="input-group">
+                                <input class="form-control" 
+                                        name="nmInicio"
+                                        id="idDtInicio"
+                                        datetimepicker
+                                        ng-model="vm.params.dt_inicio"
+                                        options="vm.data"
+                                        placeholder="00/00/0000"
+                                        ng-required="true">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>     
+                                                  
+                        </div>
+                    </div>
+    
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="idDataFinal">Até: <span class="required-field">*</span></label>    
+                                                            
+                            <div class="input-group">
+                                <input class="form-control" 
+                                        name="nmFinal"
+                                        id="idDtFinal"
+                                        datetimepicker
+                                        ng-model="vm.params.dt_final"
+                                        options="vm.data"
+                                        placeholder="00/00/0000"
+                                        ng-required="true">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>  
+                     
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="form-group">
+                            <label for="idTipoRefeicao">Tipo Refeição:</label>
+
+                            <select class="form-control" 
+                                    name="tipoTerceiro"
+                                    id="idTipoRefeicao"
+                                    ng-model="vm.params.ie_tipo_refeicao"
+                                    ng-options="item.cd_categoria as item.ds_categoria for item in vm.tipo_refeicao">
+                                <option value="">Todos</option>                          
+                            </select>  
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11">
+                        <div class="form-group">
+                            <label for="idCrachaNome">Nº Crachá ou Nome:</label>
+                            <input type="text" id="idCrachaNome" class="form-control" ng-model="vm.params.cracha_ou_nome" placeholder="(Opcional)">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-1">
+                        <button class="btn btn-primary btn-lg" type="submit"
+                                style="margin-top: 15px; margin-bottom: 10px;"
+                                ng-disabled="formPesqRh.$invalid"
+                                ng-click="vm.fnPesquisar(vm.params)">                                  
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+
+                </form>       
+
+                <div class="clearfix" style="border-bottom: 1px solid #001a33; margin-top: 120px; margin-bottom: 15px;"></div>     
+                
+                <table class="table" ng-show="vm.funcionarios.length > 0 && !vm.loader">
+                    <thead>
+                        <tr>
+                            <th>Cpf</th>
+                            <th>Nome</th>
+                            <th>Setor</th>
+                            <th>Solicitações</th>
+                            <th class="text-right">Valor</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody >  <!--Trocado o nr_cracha por ds_login_alternativo-->
+                        <tr ng-repeat="funcionario in vm.funcionarios">
+                            <td><span ng-bind="funcionario.ds_login_alternativo"></span></td>
+                            <td><span ng-bind="funcionario.nm_pessoa_fisica | Ucwords"></span></td>
+                            <td><span ng-bind="funcionario.ds_setor"></span></td>
+                            <td><span ng-bind="funcionario.qt_solicitacao"></span></td>
+                            <td align="right"><span ng-bind="funcionario.vl_refeicao"></span></td>
+                        </tr>                      
+                    </tbody>                    
+                </table>
+
+                <div ng-show="vm.primeiraPesq && !vm.loader" class="alert alert-info" role="alert"
+                    style="margin-top: 25px;">
+                    <span class="glyphicon glyphicon-info-sign alert-icon"></span>
+                    <strong>Pesquise</strong> os dados de refeições para a folha de pagamento!
+                </div>
+                
+                <div ng-show="vm.funcionarios.length == 0 && !vm.primeiraPesq && !vm.loader" class="alert alert-warning" role="alert"
+                    style="margin-top: 25px;">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhuma</strong> solicitação de refeição foi encontrada!
+                </div>
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,166 @@
+
+<div class="modal fade" id="myModalAvaliacaoRefeicao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" ng-controller="QualidadeCtrl as vm">
+
+      <div class="modal-header modal-header-primary">
+        <button type="button" 
+            class="btn btn-danger btn-modal-close"
+            data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <h4 class="modal-title text-center"> Avaliação de Refeição </h4>
+      </div>
+
+      <form name="formAvaliacao">
+
+        <div class="modal-body">              
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-xs-4 col-sm-offset-1 col-sm-3 text-right">
+              <label>Apresentação:</label>
+            </div>
+
+            <div class="col-xs-8 col-sm-8 text-left">               
+              <button class="btn btn-success-light btn-circle" 
+                      ng-class="{'btn-success-active': vm.qualidade.cd_apresentacao == 64}" ng-click="vm.qualidade.cd_apresentacao = 64">
+                <img src="./img/emotions/otimo-32.png">
+              </button>
+              <button class="btn btn-primary-light btn-circle" 
+                      ng-class="{'btn-primary-active': vm.qualidade.cd_apresentacao == 65}" ng-click="vm.qualidade.cd_apresentacao = 65">
+                <img src="./img/emotions/bom-32.png">
+              </button>
+              <button class="btn btn-warning-light btn-circle"
+                      ng-class="{'btn-warning-active': vm.qualidade.cd_apresentacao == 66}" ng-click="vm.qualidade.cd_apresentacao = 66">
+                <img src="./img/emotions/regular-32.png">   
+              </button>
+              <button class="btn btn-danger-light btn-circle" 
+                      ng-class="{'btn-danger-active': vm.qualidade.cd_apresentacao == 67}" ng-click="vm.qualidade.cd_apresentacao = 67">
+                <img src="./img/emotions/ruim-32.png">  
+              </button>           
+            </div>
+          </div>
+
+          <div class="row-divide"></div>
+
+          <div class="row">
+            <div class="col-xs-4 col-sm-offset-1 col-sm-3 text-right">
+              <label>Temperatura:</label>
+            </div>
+
+            <div class="col-xs-8 col-sm-8">
+              <button class="btn btn-success-light btn-circle" 
+                      ng-class="{'btn-success-active': vm.qualidade.cd_temperatura == 64}" ng-click="vm.qualidade.cd_temperatura = 64">
+                <img src="./img/emotions/otimo-32.png">
+              </button>
+              <button class="btn btn-primary-light btn-circle" 
+                      ng-class="{'btn-primary-active': vm.qualidade.cd_temperatura == 65}" ng-click="vm.qualidade.cd_temperatura = 65">
+                <img src="./img/emotions/bom-32.png">
+              </button>
+              <button class="btn btn-warning-light btn-circle"
+                      ng-class="{'btn-warning-active': vm.qualidade.cd_temperatura == 66}" ng-click="vm.qualidade.cd_temperatura = 66">
+                <img src="./img/emotions/regular-32.png">   
+              </button>
+              <button class="btn btn-danger-light btn-circle" 
+                      ng-class="{'btn-danger-active': vm.qualidade.cd_temperatura == 67}" ng-click="vm.qualidade.cd_temperatura = 67">
+                <img src="./img/emotions/ruim-32.png">  
+              </button>
+            </div>
+          </div>
+
+          <div class="row-divide"></div>
+              
+          <div class="row">
+            <div class="col-xs-4 col-sm-offset-1 col-sm-3 text-right">
+              <label>Sabor:</label>
+            </div>
+
+            <div class="col-xs-8 col-sm-8">
+              <button class="btn btn-success-light btn-circle" 
+                      ng-class="{'btn-success-active': vm.qualidade.cd_sabor == 64}" ng-click="vm.qualidade.cd_sabor = 64">
+                <img src="./img/emotions/otimo-32.png">
+              </button>
+              <button class="btn btn-primary-light btn-circle" 
+                      ng-class="{'btn-primary-active': vm.qualidade.cd_sabor == 65}" ng-click="vm.qualidade.cd_sabor = 65">
+                <img src="./img/emotions/bom-32.png">
+              </button>
+              <button class="btn btn-warning-light btn-circle"
+                      ng-class="{'btn-warning-active': vm.qualidade.cd_sabor == 66}" ng-click="vm.qualidade.cd_sabor = 66">
+                <img src="./img/emotions/regular-32.png">   
+              </button>
+              <button class="btn btn-danger-light btn-circle" 
+                      ng-class="{'btn-danger-active': vm.qualidade.cd_sabor == 67}" ng-click="vm.qualidade.cd_sabor = 67">
+                <img src="./img/emotions/ruim-32.png">  
+              </button>
+            </div>
+          </div>
+
+          <div class="row-divide"></div>
+
+          <div class="row">
+            <div class="col-xs-4 col-sm-offset-1 col-sm-3 text-right">
+              <label>Simpatia SND:</label>
+            </div>
+
+            <div class="col-xs-8 col-sm-8">
+              <button class="btn btn-success-light btn-circle" 
+                      ng-class="{'btn-success-active': vm.qualidade.cd_simpatia == 64}" ng-click="vm.qualidade.cd_simpatia = 64">
+                <img src="./img/emotions/otimo-32.png">
+              </button>
+              <button class="btn btn-primary-light btn-circle" 
+                      ng-class="{'btn-primary-active': vm.qualidade.cd_simpatia == 65}" ng-click="vm.qualidade.cd_simpatia = 65">
+                <img src="./img/emotions/bom-32.png">
+              </button>
+              <button class="btn btn-warning-light btn-circle"
+                      ng-class="{'btn-warning-active': vm.qualidade.cd_simpatia == 66}" ng-click="vm.qualidade.cd_simpatia = 66">
+                <img src="./img/emotions/regular-32.png">   
+              </button>
+              <button class="btn btn-danger-light btn-circle" 
+                      ng-class="{'btn-danger-active': vm.qualidade.cd_simpatia == 67}" ng-click="vm.qualidade.cd_simpatia = 67">
+                <img src="./img/emotions/ruim-32.png">  
+              </button>
+            </div>
+          </div>
+
+          <div class="row-divide"></div>
+
+          <div class="row input-form-avalicao">
+            <div class="col-xs-4 col-sm-offset-1 col-sm-3 text-right">
+              <label>Higiene Local:</label>
+            </div>
+
+            <div class="col-xs-8 col-sm-8">
+              <button class="btn btn-success-light btn-circle" 
+                      ng-class="{'btn-success-active': vm.qualidade.cd_higiene_loc == 64}" ng-click="vm.qualidade.cd_higiene_loc = 64">
+                <img src="./img/emotions/otimo-32.png">
+              </button>
+              <button class="btn btn-primary-light btn-circle" 
+                      ng-class="{'btn-primary-active': vm.qualidade.cd_higiene_loc == 65}" ng-click="vm.qualidade.cd_higiene_loc = 65">
+                <img src="./img/emotions/bom-32.png">
+              </button>
+              <button class="btn btn-warning-light btn-circle"
+                      ng-class="{'btn-warning-active': vm.qualidade.cd_higiene_loc == 66}" ng-click="vm.qualidade.cd_higiene_loc = 66">
+                <img src="./img/emotions/regular-32.png">   
+              </button>
+              <button class="btn btn-danger-light btn-circle" 
+                      ng-class="{'btn-danger-active': vm.qualidade.cd_higiene_loc == 67}" ng-click="vm.qualidade.cd_higiene_loc = 67">
+                <img src="./img/emotions/ruim-32.png">  
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer text-center">
+          <button class="btn btn-success" 
+            ng-disabled="vm.fnValidaQualidade(vm.qualidade) || vm.loaderBtn"
+            ng-click="vm.fnCadastraAvaliacao(vm.qualidade)">
+            Concluir
+            <span class="glyphicon glyphicon-ok"></span> 
+            <div class="loader-btn-success" ng-show="vm.loaderBtn"></div>
+          </button>       
+        </div>
+                           
+      </form>
+
+    </div>
+  </div>
+</div>

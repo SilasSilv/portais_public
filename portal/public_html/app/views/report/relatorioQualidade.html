@@ -1,0 +1,128 @@
+<div ng-controller="relatorioQualidadeCtrl as vm" ui-view>
+    <div class="container-full">
+      
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="page-header">
+                    <h1 class="title-primary text-center">Relatório Avaliação Refeitório</h1>
+                </div>
+
+                <form name="formPesqPessoal" >
+                    <div class="col-xs-12 col-sm-offset-4 col-sm-3">
+                        <p class="msg-required-field">Campos obrigatórios ( * )</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-offset-4 col-sm-3">
+                        <div class="form-group">
+                            <label for="idInicio">Mes e Ano referência: <span class="required-field">*</span></label>
+                                                                
+                            <div class="input-group">
+                                <input class="form-control" 
+                                        name="nmData"
+                                        id="idData"
+                                        datetimepicker
+                                        ng-model="vm.params.data"
+                                        options="vm.data"
+                                        placeholder="00/0000"
+                                        ng-required="true">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+                                                    
+                        </div>
+                    </div>           
+                    
+                    <div class="col-xs-12 col-sm-5">
+                        <button class="btn btn-primary" type="submit"
+                                style="margin-top: 23px; margin-bottom: 10px;"
+                                ng-disabled="formPesqPessoal.$invalid"
+                                ng-click="vm.fnPesquisar(vm.params)">                                  
+                            Analisar <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+
+                </form>
+    
+            </div>
+        </div>
+
+        <div ng-show="vm.primeiraPesq && !vm.loaderQuality" class="alert alert-info alert-quality" role="alert">                      
+            <span class="glyphicon glyphicon-info-sign alert-icon"></span>
+            <strong>Pesquise</strong> os dados da avaliação do refeitório!
+        </div>
+
+        <div ng-show="vm.avaliacao.total_avaliacoes == 0 && !vm.primeiraPesq && !vm.loaderQuality" class="alert alert-warning alert-quality" role="alert">
+            <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+            <strong>Nenhuma</strong> avaliação foi feita nessa data!
+        </div>
+
+        <div id="floatingBarsG" ng-show="vm.loaderQuality">
+            <div class="blockG" id="rotateG_01"></div>
+            <div class="blockG" id="rotateG_02"></div>
+            <div class="blockG" id="rotateG_03"></div>
+            <div class="blockG" id="rotateG_04"></div>
+            <div class="blockG" id="rotateG_05"></div>
+            <div class="blockG" id="rotateG_06"></div>
+            <div class="blockG" id="rotateG_07"></div>
+            <div class="blockG" id="rotateG_08"></div>
+        </div>
+
+        <div ng-if="vm.avaliacao.total_avaliacoes > 0 && !vm.loaderQuality">
+
+            <div class="row text-center">
+                <div class="col-xs-12 text-amount-quality">
+
+                    <h3>
+                        Quantidade de Avaliações: <span class="label label-default">{{ vm.avaliacao.total_avaliacoes }}</span>
+
+                        <label id="legendaQualidade" class="legend-quality">Legenda 
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        </label>             
+                    </h3>                
+                    
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-md-4 col-lg-3">     
+                    <canvas class="chart chart-doughnut" chart-data="vm.avaliacao.detalhe_avaliacoes.apresentacao.resumo" chart-labels="vm.labels" chart-options="vm.apresentacaoOpt"></canvas>    
+                </div>
+        
+                <div class="col-md-4 col-lg-3">                
+                    <canvas class="chart chart-doughnut" chart-data="vm.avaliacao.detalhe_avaliacoes.temperatura.resumo" chart-labels="vm.labels" chart-options="vm.temperaturaOpt"></canvas>    
+                </div>
+        
+                <div class="col-md-4 col-lg-3">                
+                    <canvas class="chart chart-doughnut" chart-data="vm.avaliacao.detalhe_avaliacoes.sabor.resumo" chart-labels="vm.labels" chart-options="vm.saborOpt"></canvas>    
+                </div>
+        
+                <div class="col-xs-12 col-sm-offset-0 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-0">                
+                    <canvas class="chart chart-doughnut" chart-data="vm.avaliacao.detalhe_avaliacoes.simpatia.resumo" chart-labels="vm.labels" chart-options="vm.simpatiaOpt"></canvas>    
+                </div>
+        
+                <div class="col-md-4 col-md-offset-0 col-lg-3 col-lg-offset-4" >                
+                    <canvas class="chart chart-doughnut chart-align-medium" chart-data="vm.avaliacao.detalhe_avaliacoes.simpatia.resumo" chart-labels="vm.labels" chart-options="vm.higieneOpt"></canvas>    
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                var content = "<button class='btn btn-success btn-circle'><img src='./img/emotions/otimo-32.png'></button> Ótimo <br>";
+                    content += "<button class='btn btn-primary btn-circle'><img src='./img/emotions/bom-32.png'></button> Bom <br>";
+                    content += "<button class='btn btn-warning btn-circle'><img src='./img/emotions/regular-32.png'></button> Regular <br>";
+                    content += "<button class='btn btn-danger btn-circle'><img src='./img/emotions/ruim-32.png'></button> Ruim";
+                    
+                $("#legendaQualidade").popover({
+                    trigger: 'hover',
+                    content: content,
+                    placement: "bottom",
+                    html: true
+                });
+            </script>
+
+        </div>    
+    
+    </div>
+</div>

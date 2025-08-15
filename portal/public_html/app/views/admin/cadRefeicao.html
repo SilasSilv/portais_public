@@ -1,0 +1,251 @@
+<div   ng-controller="cadRefeicaoCtrl as vm" ui-view>
+    <div class="container">
+
+        <div class="page-header">          
+            <button class="btn btn-success"
+                    style="float: right;"
+                    ng-disabled="vm.ieCadastrar"
+                    ng-click="vm.ieCadastrar = true; vm.tipoSalvar = 'create'">
+                <span class='glyphicon glyphicon-plus'></span>
+                Nova
+            </button>
+
+            <h1 class="title-primary text-center">Cadastrar Refeições</h1>
+        </div>      
+
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8" ng-if="vm.ieCadastrar">
+            <form name="formRef">
+                <div class="col-xs-12">
+                    <p class="msg-required-field">Campos obrigatórios ( * )</p>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-7">
+                    <div class="form-group">                       
+                        <label for="idTipos">Refeição: <span class="required-field">*</span></label>  
+
+                        <select class="form-control" 
+                                name="tipoTerceiro"
+                                id="idTipo"
+                                ng-model="vm.refeicao.ie_tipo_refeicao"
+                                ng-options="item.cd_categoria as item.ds_categoria for item in vm.tipo_refeicao"
+                                ng-required="true">
+                            <option value=""> Selecione uma refeição </option>                                
+                        </select>                     
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-7">
+                    <div class="form-group">                       
+                        <label for="idDtRefeicao">Data: <span class="required-field">*</span></label> 
+                        
+                        <div class="form-group"
+                             ng-class="{'has-error': (formRef.nmData.$error.pattern || vm.validDtRefeicao)
+                                                && formRef.nmData.$touched}">                                    
+                            <div class="input-group">
+                                <input class="form-control" 
+                                       name="nmData"
+                                       id="idDtRefeicao"
+                                       datetimepicker
+                                       ng-model="vm.refeicao.dt_refeicao"
+                                       options="vm.options.data"
+                                       placeholder="00/00/0000"
+                                       ng-pattern="vm.validPattern.data"
+                                       ng-required="true"
+                                       ng-keyup="vm.fnValidarData('refeicao')"
+                                       ng-blur="vm.fnValidarData('refeicao')">
+
+                                <span class="input-group-addon">
+                                    <span class=" glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="form-group">                                                     
+                        <label for="idCardapio">Cardápio: <span class="required-field">*</span></label>
+
+                        <textarea class="form-control"
+                                  name="ds_refeicao"
+                                  id="idCardapio"
+                                  rows="3"
+                                  placeholder="Digite o cardápio"
+                                  ng-model="vm.refeicao.ds_refeicao"
+                                  ng-required="true">                                  
+                        </textarea>                       
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="idDtInicio">Inicio: <span class="required-field">*</span></label>
+
+                        <div class="form-group"
+                             ng-class="{'has-error': (formRef.nmInicio.$error.pattern || vm.validDtInicio || vm.validateDtInicioCad) 
+                                            && (formRef.nmInicio.$touched || vm.validateDtInicioCad) }">                                    
+                            <div class="input-group">
+                                <input class="form-control" 
+                                       name="nmInicio"
+                                       id="idDtInicio"
+                                       datetimepicker
+                                       ng-model="vm.refeicao.dt_inicio"
+                                       options="vm.options.data_inicio"
+                                       placeholder="00/00/0000 00:00"
+                                       ng-pattern="vm.validPattern.data_hora"
+                                       ng-required="true"
+                                       ng-keyup="vm.fnValidarData('inicio')"
+                                       ng-blur="vm.fnValidarData('inicio')">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+
+                            <span class="help-block" ng-show="vm.validateDtInicioCad">A data de início não pode ser maior que a data de refeição</span>
+                        </div>                      
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="idDtFinal">Até: <span class="required-field">*</span></label>
+
+                        <div class="form-group"
+                             ng-class="{'has-error': (formRef.nmFinal.$error.pattern || vm.validDtFinal || vm.validateDtFinalCad)
+                                                && (formRef.nmFinal.$touched || vm.validateDtFinalCad)}">                                    
+                            <div class="input-group">
+                                <input class="form-control" 
+                                       name="nmFinal"
+                                       id="idDtFinal"
+                                       datetimepicker
+                                       ng-model="vm.refeicao.dt_final"
+                                       options="vm.options.data_final"
+                                       placeholder="00/00/0000 00:00"
+                                       ng-pattern="vm.validPattern.data_hora"
+                                       ng-required="true"
+                                       ng-keyup="vm.fnValidarData('final')"
+                                       ng-blur="vm.fnValidarData('final')">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+
+                            <span class="help-block" ng-show="vm.validateDtFinalCad" ng-bind="vm.validateDtFinalMsg"></span>
+                        </div>
+
+                    </div>
+                </div> 
+
+                <div class="col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox"   
+                                ng-checked="vm.refeicao.ie_feriado == 'S'"
+                                ng-click="vm.refeicao.ie_feriado = vm.refeicao.ie_feriado  == 'S' ? 'N' : 'S'"> 
+                          <span style="font-weight: 600;">Feriado</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12" ng-if="vm.tipoSalvar == 'update'">
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox"   
+                                ng-checked="vm.refeicao.ie_situacao == 'A'"
+                                ng-click="vm.refeicao.ie_situacao = vm.refeicao.ie_situacao  == 'A' ? 'I' : 'A'"> 
+                          <span style="font-weight: 600;">Situação da Refeição</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <button class="btn btn-success"
+                            ng-disabled="formRef.$invalid || vm.validForm"
+                            ng-click="vm.fnSalvar(vm.refeicao)">
+                        <span class="glyphicon glyphicon-floppy-saved"></span>
+                        Salvar
+                        <div class="loader-btn-success" ng-show="vm.loaderBtn"></div>
+                    </button>
+
+                    <button class="btn btn-danger"
+                            ng-click="vm.ieCadastrar = false; vm.fnLimparRefeicao(vm.refeicao)">
+                        <span class="glyphicon glyphicon-floppy-remove"></span>
+                        Cancelar
+                    </button>
+
+                    <button class="btn btn-primary " 
+                            type="button"
+                            ng-click="vm.fnLimparRefeicao(vm.refeicao)">
+                        <span class="glyphicon glyphicon-erase"></span>
+                        Limpar
+                    </button>   
+                </div>
+
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                
+                <table class="table table-bordered table-owner tb-homeAdm">  
+                    <thead>
+                        <tr>
+                            <th class="tabe">Data</th>
+                            <th class="tabe">Dia</th> 
+                            <th class="tabe">Cardápio</th>  
+                            <th class="tabe">Tipo</th> 
+                            <th class="tabe">Inicio</th> 
+                            <th class="tabe">Fim</th> 
+                            <th class="tabe">Alterar</th> 
+                            <th class="tabe">Excluir</th>                     
+                        </tr>
+                    </thead>
+                                
+                    <tbody ng-show="!vm.loader" ng-repeat="refeicao in vm.refeicoes">
+                        <tr>
+                            <td><span ng-bind="refeicao.dt_refeicao"></span></td>
+                            <td><span ng-bind="refeicao.ds_dia"></span></td>
+                            <td><span ng-bind="refeicao.ds_refeicao"></span></td>  
+                            <td><span ng-bind="refeicao.ds_tipo_refeicao"></span></td>
+                            <td><span ng-bind="refeicao.dt_inicio"></span></td>
+                            <td><span ng-bind="refeicao.dt_final"></span></td>
+                            <td>                       
+                                <button class="btn btn-success" ng-click="vm.fnAlterarRef(refeicao, $index)">
+                                    <span class="glyphicon glyphicon-pencil"></span>                                     
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" ng-click="vm.fnExcluir(refeicao.nr_refeicao, $index)"
+                                    ng-disabled="vm.loaderBtnDel && vm.nr_refeicao == refeicao.nr_refeicao">
+                                    <span class="glyphicon glyphicon-trash"></span>                                    
+                                    <div class="loader-btn-danger" ng-show="vm.loaderBtnDel && vm.nr_refeicao == refeicao.nr_refeicao"></div>
+                                </button>
+                            </td>
+                        </tr>           
+                    </tbody>            
+                </table>
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+
+                <div ng-show="vm.refeicoes.length == 0 && !vm.loader" class="alert alert-warning alert-meal" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhuma</strong> refeição cadastrada!
+                </div>
+
+            </div>
+        </div>
+    
+    </div>
+</div>

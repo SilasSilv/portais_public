@@ -1,0 +1,50 @@
+<div class="modal fade" id="myModalSystem" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"> 
+
+            <div class="modal-header modal-header-primary">
+                <button type="button" class="btn btn-danger btn-modal-close" 
+                        data-dismiss="modal" aria-label="Close">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Trocar de Sistema
+                </h4>
+            </div>
+
+            <form name="contactForm">
+
+                <div class="modal-body">
+
+                    <div id="floatingBarsG" ng-show="vm.loaderSystem">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+
+                    <div ng-hide="vm.loaderSystem">
+                        <a ng-repeat="system in vm.systems"
+                            class="icon-system" ng-class="system.url_acesso ? '' : 'disabled'"
+                            ng-click="vm.fnChangeSystem(system)">
+                            <img ng-src="{{ system.img_logo || 'img/system-default.png' }}">
+                            <p>
+                               <label ng-bind="system.nm_sistema"></label>
+                            </p>
+                        </a>
+    
+                        <div class="cssload_body" ng-show="vm.loaderSystemChange">
+                            <div class="cssload-loader"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

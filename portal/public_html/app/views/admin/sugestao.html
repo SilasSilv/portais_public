@@ -1,0 +1,46 @@
+<div ng-controller="SugestaoAdminCtrl as vm" ui-view>  
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-xs-12">
+        
+                <div class="page-header">
+                    <h1 class="title-primary text-center">Sugestão</h1>
+                </div>
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+            
+                <ul class="list-group" ng-show="!vm.loader">
+                    <li class="list-group-item" ng-repeat="opiniao in vm.opinioes">
+                        <p>
+                            <strong>Tipo: </strong> <span ng-bind="opiniao.ds_tipo_opiniao"></span>
+                        </p>
+                        <p>
+                            <strong>Sugestão: </strong> <span ng-bind="opiniao.ds_opiniao"></span>
+                            <button class="btn btn-info" style="float: right;"
+                                    ng-click="vm.fnLido(opiniao, $index)" ng-disabled="vm.loaderLidoBtn && vm.nr_sequencia == opiniao.nr_sequencia">
+                                <span class="glyphicon glyphicon-eye-open"></span> Lido
+                                <div class="loader-btn-info" ng-show="vm.loaderLidoBtn && vm.nr_sequencia == opiniao.nr_sequencia"></div>
+                            </button>
+                        </p>                                  
+                    </li>
+                </ul>
+
+                <div class="alert alert-info" ng-show="vm.opinioes.length == 0 && !vm.loader">
+                    <strong>Aviso!</strong> Não há nenhuma sugestão no momento.                 
+                </div>
+
+            </div>
+        </div>
+        
+    </div>  
+  </div>

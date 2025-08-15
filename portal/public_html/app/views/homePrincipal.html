@@ -1,0 +1,142 @@
+<div class="bg-homeprincipal">
+    <div ng-controller="homePrincipalCtrl as vm"> 
+
+        <nav class="navbar navbar-inverse navbar-fixed-top navbar-feak ">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">
+                        <img alt="Brand" src="./img/logo_second.png" style="width: 40px;">
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    <ul class="nav navbar-nav nav-link">
+                        <li>                        
+                            <a ng-click="vm.fnRota('/teste')"
+                               ng-class="{'sidebar-select': vm.menuItem == 'teste'}">
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <form  name="formLgUser" class="navbar-form">
+                                <div class="form-group">                                    
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-user">
+                                            </span>
+                                        </div>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="idLogin"
+                                               placeholder="Usuário" 
+                                               ng-model="formLgUser.user.user_name"
+                                               required>
+                                    </div>   
+                                </div>
+
+                                <div class="form-group">                                    
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-pencil">
+                                            </span>
+                                        </div>
+                                        <input type="password" 
+                                               class="form-control" 
+                                               id="idSenha" 
+                                               placeholder="Senha" 
+                                               ng-model="formLgUser.user.senha"
+                                               required>
+                                    </div>   
+                                </div>
+
+                                <button  type="submit"
+                                    class="btn btn-primary" 
+                                    ng-click="vm.fnLogin(formLgUser.user)"
+                                    ng-disabled="formLgUser.$invalid || vm.loaderBtn">Entrar
+                                    <span class="glyphicon glyphicon-log-in" ng-show="!vm.loaderBtn"></span>
+                                    <div class="loader-btn-primary" ng-show="vm.loaderBtn"></div>                                    
+                                </button> 
+                            </form>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item-img-adm" 
+                               data-toggle="modal" data-target="#myModalAdmin" 
+                               data-backdrop="static" data-keyboard="false">
+                                <img style="width: 35px;" src="./img/chef_hat.png">                          
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <p class="text-center">
+                        <img src="./img/logo_principal/logo_portal_refeicao.png"  class="" >
+                    </p>
+
+                    <table class="table table-bordered table-owner">                               
+                        <thead>
+                            <tr>
+                                <th class="tabe">Data</th>
+                                <th class="tabe">Dia</th> 
+                                <th class="tabe">Cardápio</th>  
+                                <th class="tabe">Tipo</th> 
+                                <th class="tabe">Finaliza</th>                           
+                            </tr>
+                        </thead>
+                                               
+                        <tbody ng-show="!vm.loaderMenu" ng-repeat="refeicao in vm.refeicoes">
+                            <tr ng-show="vm.fnMostrarRefeicao(refeicao)">
+                                <td><span ng-bind="refeicao.dt_refeicao"></span></td>
+                                <td><span ng-bind="refeicao.ds_dia"></span></td>
+                                <td><span ng-bind="refeicao.ds_refeicao"></span></td>  
+                                <td><span ng-bind="refeicao.ds_tipo_refeicao"></span></td>
+                                <td><span ng-bind="refeicao.dt_final"></span></td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                    
+                    <div id="floatingBarsG" ng-show="vm.loaderMenu">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div> 
+                    
+                    <div ng-show="vm.refeicoes.length == 0 && !vm.loaderMenu" class="alert alert-warning alert-meal" role="alert">
+                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                        <strong>Nenhuma</strong> refeição cadastrada!
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modals --> 
+        <div ng-include="'./app/views/modals/loginAdmin.html'"></div>
+        <div ng-include="'./app/views/modals/alterarSenha.html'"></div>
+        <div ng-include="'./app/views/modals/qualidade.html'"></div>
+    </div>
+</div>
+
+<!-- Menssagem para os usuários -->
+<div growl></div>

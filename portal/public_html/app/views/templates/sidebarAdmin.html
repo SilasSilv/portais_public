@@ -1,0 +1,143 @@
+<div ng-controller="SidebarMenuAdminCtrl as vm" ng-hide="vm.authenticationVerificationLoader">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar-feak">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" 
+                        class="navbar-toggle collapsed" 
+                        data-toggle="collapse" 
+                        data-target="#bs-example-navbar-collapse-1" 
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">
+                    <img alt="Brand" src="./img/logo_second.png" style="width: 40px;">
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav nav-link">
+                    <li ng-class="{'active': vm.menuItem == 'cadRefeicao'}">                        
+                        <a ng-click="vm.fnRota('/administrador/cadRefeicao')"                           
+                           style="cursor: pointer;">
+                            Cadastrar Refeição
+                        </a>
+                    </li>
+                    <li ng-class="{'active': vm.menuItem == 'sugestao'}">                        
+                        <a ng-click="vm.fnRota('/administrador/sugestao')"                           
+                           style="cursor: pointer;">
+                           <span class="badge badge-red" ng-show="vm.qtOpinioes > 0" ng-bind="vm.qtOpinioes"></span>
+                            Sugestão
+                        </a>
+                    </li>
+                    <li ng-show="vm.mostrarPreco == 'S'" ng-class="{'active': vm.menuItem == 'preco'}">                        
+                        <a ng-click="vm.fnRota('/administrador/refeicao/preco')"                           
+                            style="cursor: pointer;">
+                            Refeição Preço
+                        </a>
+                    </li>
+                    <li class="dropdown"
+                        ng-class="{'active': vm.menuItem == 'relatorio'}">
+                        <a class="dropdown-toggle"                             
+                           data-toggle="dropdown" 
+                           role="button" 
+                           aria-haspopup="true" 
+                           aria-expanded="false">
+                            Consultas 
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a ng-click="vm.fnRota('/administrador/relatorio/refeicao')"
+                                   ng-class="{'sidebar-select': vm.menuItem == 'relatorioRefeicao'}"
+                                   style="cursor: pointer;">
+                                    Refeições Gerais
+                                </a>
+                            </li>
+
+                            <li>
+                                <a ng-click="vm.fnRota('/administrador/relatorio/dobra-terceiro')"
+                                   ng-class="{'sidebar-select': vm.menuItem == 'relatorioDobra'}"
+                                   style="cursor: pointer;">
+                                    Dobras e Terceiros
+                                </a>
+                            </li>
+
+                            <li>
+                                <a ng-click="vm.fnRota('/administrador/relatorio/avaliacao/qualidade')"
+                                   ng-class="{'sidebar-select': vm.menuItem == 'relatorioQualidade'}"
+                                   style="cursor: pointer;">
+                                    Avaliação da Qualidade do Refeitório
+                                </a>
+                            </li>
+
+                            <li ng-if="vm.consulta_rh == 'S'">
+                                <a ng-click="vm.fnRota('/administrador/relatorio/rh')"
+                                    ng-class="{'sidebar-select': vm.menuItem == 'relatorioDiverso'}"
+                                    style="cursor: pointer;">
+                                   Refeições Folha de Pagamento
+                                </a>
+                            </li>
+
+                            <li ng-if="vm.consulta_catraca == 'S'">
+                                <a ng-click="vm.fnRota('/administrador/relatorio/catraca')"
+                                   ng-class="{'sidebar-select': vm.menuItem == 'relatorioCatraca'}"
+                                   style="cursor: pointer;">
+                                    Acesso Catraca
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li  ng-click="vm.fnFindSystemsAccess()">                        
+                        <a style="cursor: pointer;">
+                            Trocar de Sistema
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right nav-link">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle dropdown-user" 
+                           data-toggle="dropdown" 
+                           role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false"> 
+                           <img ng-src="{{vm.photoUser}}" class="item-user img-circle">                       
+                            <span ng-bind="vm.nameUser"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu menu-item">       
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <button class="btn btn-danger btn-sair" ng-click="vm.fnLogout()"
+                                    ng-disabled="vm.loaderLogout">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                    Sair
+                                    <div class="loader-btn-danger" ng-show="vm.loaderLogout"></div>
+                                </button>                                   
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+               
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <ui-view></ui-view>
+    
+    <!-- Menssagem para o administrador -->
+    <div growl></div>
+
+    <!-- Modals -->
+    <div ng-include="'./app/views/modals/modal-system.html'"></div>
+
+    <script type="text/javascript">
+        $('.dropdown-menu .btn-sair').click(function(e) {
+            e.stopPropagation();
+        });
+    </script>    
+</div>

@@ -1,0 +1,140 @@
+<div ng-controller="relatorioDobrasCtrl as vm" ui-view>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="page-header">
+                    <h1 class="title-primary text-center">Relatório Dobras e Terceiros</h1>
+                </div>
+
+                <form name="formPesqPessoal">
+                    <div class="col-xs-12">
+                        <p class="msg-required-field">Campos obrigatórios ( * )</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="idInicio">Inicio: <span class="required-field">*</span></label>
+                                                                
+                            <div class="input-group">
+                                <input class="form-control" 
+                                        name="nmInicio"
+                                        id="idDtInicio"
+                                        datetimepicker
+                                        ng-model="vm.filter.dt_inicio"
+                                        options="vm.data"
+                                        placeholder="00/00/0000"
+                                        ng-required="true">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+                                                    
+                        </div>
+                    </div>
+    
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="idDataFinal">Até: <span class="required-field">*</span></label>
+                                                                
+                            <div class="input-group">
+                                <input class="form-control" 
+                                        name="nmFinal"
+                                        id="idDtFinal"
+                                        datetimepicker
+                                        ng-model="vm.filter.dt_final"
+                                        options="vm.data"
+                                        placeholder="00/00/0000"
+                                        ng-required="true">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+    
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="form-group">
+                            <label for="idTipoRefeicao">Tipo Refeição:</label>
+
+                            <select class="form-control" 
+                                    name="tipoTerceiro"
+                                    id="idTipoRefeicao"
+                                    ng-model="vm.filter.ie_terceiro_dobra"
+                                    ng-options="item.cd_categoria as item.ds_categoria for item in vm.tipo_dobra_terceiro">
+                                <option value="">Todos</option>                          
+                            </select>  
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-1">
+                        <button class="btn btn-primary btn-lg" type="submit"
+                                style="margin-top: 15px; margin-bottom: 10px;"
+                                ng-disabled="formPesqPessoal.$invalid"
+                                ng-click="vm.fnSearch(vm.filter)">                                  
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+
+                </form> 
+
+                <div class="clearfix" style="border-bottom: 1px solid #001a33; margin-top: 120px; margin-bottom: 15px;"></div>
+
+                <div ng-show="vm.dobras.length > 0 && !vm.loader">
+
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th width="25%">Data</th>
+                                <th width="25%">Tipo</th>
+                                <th width="50%">Nome</th>
+                            </tr>
+                        </thead>
+                       <tbody>
+                           <tr ng-repeat="dobra in vm.dobras">
+                               <td><span ng-bind="dobra.dt_refeicao"></span></td>
+                               <td><span ng-bind="dobra.ie_terceiro_dobra == 'D' ? 'Dobra' : 'Terceiro'"></span></td>
+                               <td><span ng-bind="(dobra.nm_pessoa_fisica != '' ? dobra.nm_pessoa_fisica : dobra.nm_pessoa_cartao) | Ucwords"></span></td>
+                           </tr>
+                       </tbody> 
+                    </table>
+
+                </div>
+
+                <div ng-show="vm.firstSearch && !vm.loader" class="alert alert-info" role="alert">                      
+                    <span class="glyphicon glyphicon-info-sign alert-icon"></span>
+                    <strong>Pesquise</strong> os dados de dobras e refeições para terceiros!
+                </div>
+                
+                <div ng-show="vm.dobras.length == 0 && !vm.firstSearch && !vm.loader" class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhuma</strong> solcitação de dobras ou refeições para terceiros foi encontrada!
+                </div> 
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+
+                <div ng-if="(vm.loadMore % 20) == 0 && vm.loadMore > 0 && !vm.loader" class="text-center" style="margin: 20px 0px;">
+                    <button class="btn btn-lg btn-primary" ng-click="vm.fnSearch(vm.filter, true)">
+                        Carregar mais
+                        <div class="loader-btn-primary" ng-show="vm.loaderBtnMore"></div>
+                    </button>
+                </div>
+        
+            </div>
+        </div>    
+
+    </div>
+</div>    

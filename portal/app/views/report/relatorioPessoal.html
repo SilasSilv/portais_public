@@ -1,0 +1,199 @@
+<div ng-controller="relatorioPessoalCtrl as vm" ui-view>
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="page-header">
+                    <h1 class="title-primary text-center">Relatório Refeições Pessoais</h1>
+                </div>
+
+                <form name="formPesqPessoal">
+                    <div class="col-xs-12">
+                        <p class="msg-required-field">Campos obrigatórios ( * )</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="idInicio">Inicio: <span class="required-field">*</span></label>
+                                                                
+                            <div class="input-group">
+                                <input class="form-control" 
+                                        name="nmInicio"
+                                        id="idDtInicio"
+                                        datetimepicker
+                                        ng-model="vm.params.dt_inicio"
+                                        options="vm.data"
+                                        placeholder="00/00/0000"
+                                        ng-required="true">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+                                                 
+                        </div>
+                    </div>
+    
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="form-group">
+                            <label for="idDataFinal">Até: <span class="required-field">*</span></label>
+                                                               
+                            <div class="input-group">
+                                <input class="form-control" 
+                                        name="nmFinal"
+                                        id="idDtFinal"
+                                        datetimepicker
+                                        ng-model="vm.params.dt_final"
+                                        options="vm.data"
+                                        placeholder="00/00/0000"
+                                        ng-required="true">
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div> 
+    
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="form-group">
+                            <label for="idTipoRefeicao">Tipo Refeição:</label>
+
+                            <select class="form-control" 
+                                    name="tipoTerceiro"
+                                    id="idTipoRefeicao"
+                                    ng-model="vm.params.ie_tipo_refeicao"
+                                    ng-options="item.cd_categoria as item.ds_categoria for item in vm.tipo_refeicao">
+                                <option value="">Todos</option>                          
+                            </select>  
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-1">
+                        <button class="btn btn-primary btn-lg" type="submit"
+                                style="margin-top: 15px; margin-bottom: 10px;"
+                                ng-disabled="formPesqPessoal.$invalid"
+                                ng-click="vm.fnPesquisar(vm.params)">                                  
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+
+                </form>       
+
+                <div class="clearfix" style="border-bottom: 1px solid #001a33; margin-top: 120px; margin-bottom: 15px;"></div>
+
+                <div ng-if="vm.refeicoes.length > 0 && !vm.loader">
+
+                    <div style="margin-bottom: 15px;">
+                        <label>Visualizar: </label>
+                        <button class="btn"
+                            ng-class="{'btn-info': vm.ieVisualizar == 1}"
+                            ng-click="vm.ieVisualizar = 1">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </button>
+                        <button class="btn"
+                            ng-class="{'btn-info': vm.ieVisualizar == 2}"
+                            ng-click="vm.ieVisualizar = 2">
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        </button>
+                    </div>
+
+                    <div class="panel"
+                        ng-show="vm.ieVisualizar == 1"
+                        ng-class="{'panel-success': refeicao.ie_solicitacao == 'SIM', 
+                                   'panel-danger': refeicao.ie_solicitacao == 'NÃO'}" 
+                        ng-repeat="refeicao in vm.refeicoes">
+                        <div class="panel-heading">
+                            <span>
+                                <label>Data:</label> <span ng-bind="refeicao.dt_refeicao"></span>
+                            </span>
+                            
+                            <span style="float: right;">
+                                <label>Solicitado:</label> <span class="badge"><span ng-bind="refeicao.ie_solicitacao"></span></span>
+                            </span>                        
+                        </div>
+    
+                        <div class="panel-body">                                                                            
+                            <div class="row">                      
+                                <div class="col-xs-12">
+                                    <label>Descrição:</label> <span ng-bind="refeicao.ds_refeicao"></span>
+                                </div>                            
+                            </div> 
+                            
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-3">
+                                    <label>Tipo:</label> <span ng-bind="refeicao.ie_tipo_refeicao"></span>                                
+                                </div>
+    
+                                <div class="col-xs-1 col-sm-6">
+                                    <label>Alteração:</label> <span ng-bind="refeicao.ds_ref_alt"></span>                                
+                                </div>
+                            </div>                     
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-hover table-responsive" 
+                        ng-show="vm.ieVisualizar == 2">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Tipo</th>
+                                <th>Alteração</th>
+                                <th>Solicitado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="refeicao in vm.refeicoes">
+                                <td><span ng-bind="refeicao.dt_refeicao"></span></td>
+                                <td><span ng-bind="refeicao.ds_refeicao | ReduceString:80"></span></td>
+                                <td><span ng-bind="refeicao.ie_tipo_refeicao"></span></td>
+                                <td><span ng-bind="refeicao.ds_ref_alt != 'Nenhuma' ? 'Sim' : 'Não'"></span></td>
+                                <td>
+                                    <span class="label"
+                                        ng-class="{'label-success': refeicao.ie_solicitacao == 'SIM', 
+                                                   'label-danger': refeicao.ie_solicitacao == 'NÃO'}">
+                                        <span ng-bind="refeicao.ie_solicitacao"></span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>                
+
+                <div ng-show="vm.primeiraPesq && !vm.loader" class="alert alert-info" role="alert">                      
+                    <span class="glyphicon glyphicon-info-sign alert-icon"></span>
+                    <strong>Pesquise</strong> os dados da refeição!
+                </div>
+                
+                <div ng-show="vm.refeicoes.length == 0 && !vm.primeiraPesq && !vm.loader" class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhuma</strong> refeição foi encontrada!
+                </div> 
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+
+                <div ng-if="(vm.carregarMais % 20) == 0 && vm.carregarMais > 0 && !vm.loader" class="text-center" style="margin: 20px 0px;">
+                    <button class="btn btn-lg btn-primary" ng-click="vm.fnPesquisar(vm.params, true)">
+                        Carregar mais
+                        <div class="loader-btn-primary" ng-show="vm.loaderBtn"></div>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
