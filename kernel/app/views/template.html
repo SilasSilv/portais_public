@@ -1,0 +1,60 @@
+<div ng-controller="templateCtrl as vmt" ng-hide="vmt.authenticationVerificationLoader">
+    <nav id="nav-main" class="navbar navbar-primary navbar-fixed-top"> 
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="padding-top: 6px;" >
+                    <img src="img/logo_nav.png" style="width: 38px;">
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{'active': vmt.menuItem == 'home'}"><a data-toggle="collapse" data-target=".navbar-collapse.in" ng-click="vmt.fnRota('/kernel/home')">Home</a></li>
+                    <li ng-class="{'active': vmt.menuItem == 'sistema'}"><a data-toggle="collapse" data-target=".navbar-collapse.in" ng-click="vmt.fnRota('/kernel/sistema')">Sistema</a></li>
+                    <li ng-class="{'active': vmt.menuItem == 'categoria'}"><a data-toggle="collapse" data-target=".navbar-collapse.in" ng-click="vmt.fnRota('/kernel/categoria')">Categoria</a></li>
+                    <li class="dropdown" ng-class="{'active': vmt.menuItem == 'permissao'}">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Permissão <span class="caret"></span></a> 
+                        <ul class="dropdown-menu">
+                            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" ng-click="vmt.fnRota('/kernel/permissao/gerenciar')">Gerenciar</a></li>
+                            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" ng-click="vmt.fnRota('/kernel/permissao/conceder')">Conceder</a></li>
+                        </ul>
+                    </li>
+                    <li ng-class="{'active': vmt.menuItem == 'sessao'}"><a data-toggle="collapse" data-target=".navbar-collapse.in" ng-click="vmt.fnRota('/kernel/sessao')">Sessão</a></li>
+                    <li  ng-click="vmt.fnFindSystemsAccess()">                        
+                        <a style="cursor: pointer;">
+                            Trocar de Sistema
+                        </a>
+                    </li>                   
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="color: #fff">
+                        <a>
+                            Olá <span ng-bind="vmt.nameUser" ></span>
+                            <div class="loader-btn-danger" ng-show="vmt.loaderLogout"></div>
+                            <button class="btn btn-danger-clear" ng-click="vmt.fnLogout()" style="padding: 0; margin: 0 0 0 5px;"
+                                ng-hide="vmt.loaderLogout">
+                                <span class="glyphicon glyphicon-log-out"></span> Sair
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div style="margin-top: 60px;">
+        <ui-view></ui-view>
+    </div>
+
+    <!-- Modals -->
+    <div ng-include="'./app/views/modal-system.html'"></div>
+
+    <!-- Menssagem para os usuários -->
+    <div growl></div>
+</div>

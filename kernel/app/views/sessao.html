@@ -1,0 +1,59 @@
+<div class="container" ng-controller="sessionCtrl as vm" ui-view>
+
+    <div class="title-main">
+        <h1>Sessões</h1>
+    </div>
+
+    <div id="floatingBarsG" ng-show="vm.loader">
+        <div class="blockG" id="rotateG_01"></div>
+        <div class="blockG" id="rotateG_02"></div>
+        <div class="blockG" id="rotateG_03"></div>
+        <div class="blockG" id="rotateG_04"></div>
+        <div class="blockG" id="rotateG_05"></div>
+        <div class="blockG" id="rotateG_06"></div>
+        <div class="blockG" id="rotateG_07"></div>
+        <div class="blockG" id="rotateG_08"></div>
+    </div>
+
+    <div class="row" ng-hide="vm.loader">
+        <div class="col-xs-12">
+
+            <table class="table table-condensed table-responsive table-striped"
+                ng-show="vm.sessions.length > 0">
+                <thead>
+                    <tr>   
+                        <th>Usuário</th>
+                        <th>Sistema</th>
+                        <th>Acesso</th>	
+                        <th>Expirar</th>
+                        <th width="10%"></th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr ng-repeat="session in vm.sessions">
+                        <td><span ng-bind="session.nm_pessoa_fisica | Ucwords"></span></td>
+                        <td><span ng-bind="session.nm_sistema"></span></td>
+                        <td><span ng-bind="session.dt_inicio"></span></td>
+                        <td><span ng-bind="session.expire"></span></td>
+                        <td>
+                            <button class="btn btn-danger-clear" ng-click="vm.fnToClose(session.nr_sequencia, $index)"
+                                ng-disabled="vm.loaderBtn">
+                                <span class="glyphicon glyphicon-off" ng-hide="vm.loaderBtn && session.nr_sequencia == vm.nr_sequencia"></span> 
+                                <div class="loader-btn-danger" ng-show="vm.loaderBtn && session.nr_sequencia == vm.nr_sequencia"></div>
+                                Encerrar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div ng-show="vm.sessions.length == 0" class="alert alert-warning alert-meal" role="alert">
+                <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                <strong>Nenhuma</strong> sessão foi encontrado!
+            </div>
+
+        </div>
+    </div>
+
+</div>

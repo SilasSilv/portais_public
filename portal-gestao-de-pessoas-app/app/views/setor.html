@@ -1,0 +1,215 @@
+<div class="container" ng-controller="setorCtrl as vm" ui-view>
+
+    <div class="title-main">
+		<span>
+			<button class="btn  btn-success-clear" ng-click="vm.fnStatusNew()">
+				<span class="glyphicon glyphicon-plus"></span>
+				Novo
+			</button>
+	
+			<button class="btn btn-primary-clear" ng-click="vm.fnCloseSectorForm()">
+				<span class="glyphicon glyphicon-search"></span>
+				Pesquisar
+			</button>
+		</span>
+
+		<h1>Gerenciar Setores</h1>
+	</div>
+
+	<div class="row" style="margin-top: 60px;" ng-if="!vm.statusNewAndUpdate">
+		<div class="col-xs-12">
+
+			<form name="formBuscar" class="search-home" >
+				<div class="col-xs-12 col-sm-offset-1 col-sm-8 col-sm-8 col-lg-9">
+					<div class="form-group">
+						<input type="text" class="form-control" name="crachaNome"
+							placeholder=" Digite o nome do setor" ng-model="vm.filter.name">    
+					</div>    
+				</div>
+				
+				<div class="col-xs-12 col-sm-1 text-center">
+					<button type="submit" class="btn btn-info-clear-br" style="margin-bottom: 60px;" ng-click="vm.fnSearch(vm.filter.name)">
+						<span class="glyphicon glyphicon-search"></span>
+						Buscar
+					</button>
+				</div>
+			</form>
+		
+		</div>
+	</div>
+
+	<div class="row" ng-if="vm.statusNewAndUpdate">
+		<div class="col-xs-12">
+			
+			<div class="panel-form">
+				<form name="sectorForm">
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+						<p style="color: red; margin: -40px 0 30px;">Campos obrigatórios ( * )</p>
+					</div>
+
+					<div class="form-group col-xs-12 col-sm-8 col-sm-offset-2">
+						<label>Nome do Setor: <span class="required-field">*</span></label>
+						<input type="text" class="form-control" ng-model="vm.sector.ds_setor" required>
+					</div>
+
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModalCard" data-keyboard="false" data-backdrop="static">
+							<span class="badge badge-red">
+								<span ng-bind="vm.sector.cartoes.length"></span>
+							</span> Gerenciar Cartões:
+							<span class="glyphicon glyphicon-pencil"></span>
+						</button>
+					</div>
+	
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2 btn-center-xs" style="margin-top: 5px;">
+						<button type="submit" class="btn btn-lg btn-success-clear" 
+							ng-disabled="sectorForm.$invalid || vm.loaderBtnSave" ng-click="vm.fnSave(vm.sector)">
+							<span class="glyphicon glyphicon-floppy-saved"></span>
+							Salvar
+							<div class="loader-btn-success" ng-show="vm.loaderBtnSave"></div>
+						</button>
+			
+						<button type="button" class="btn btn-lg btn-danger-clear" ng-click="vm.fnCloseSectorForm()">
+							<span class="glyphicon glyphicon-floppy-remove"></span>
+							Cancelar
+						</button>
+			
+						<button type="button" class="btn btn-lg btn-primary-clear" ng-click="vm.fnToCleanSectorBtn()">
+							<span class="glyphicon glyphicon-erase"></span>
+							Limpar
+						</button>
+					</div>
+				</form>
+
+				<div class="clearfix"></div>
+			</div>
+			
+		</div>
+	</div>	
+
+	<div class="row">
+		<div class="col-xs-12">
+
+			<table class="table table-condensed table-responsive table-striped"
+				ng-hide="vm.loader">
+				<thead>
+					<tr>
+						<th>Nome</th>				
+						<th width="10%"></th>
+						<th width="10%"></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr ng-repeat="sector in vm.sectors">
+						<td> <span ng-bind="sector.ds_setor"></span> </td>
+						<td>
+							<button class="btn btn-success-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+								ng-click="vm.fnStatusUpdate(sector)">
+								<span class="glyphicon glyphicon-pencil"></span>
+								Editar
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+								ng-click="vm.fnDelete(sector)" ng-hide="sector.cd_setor == vm.cd_setor && vm.loaderBtnDelete">
+								<span class="glyphicon glyphicon-trash"></span>
+								Excluir
+							</button>
+
+							<div class="loader-btn-danger" style="margin-left:23px; margin-top: 10px;"
+								ng-show="sector.cd_setor == vm.cd_setor && vm.loaderBtnDelete"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div id="floatingBarsG" ng-show="vm.loader">
+				<div class="blockG" id="rotateG_01"></div>
+				<div class="blockG" id="rotateG_02"></div>
+				<div class="blockG" id="rotateG_03"></div>
+				<div class="blockG" id="rotateG_04"></div>
+				<div class="blockG" id="rotateG_05"></div>
+				<div class="blockG" id="rotateG_06"></div>
+				<div class="blockG" id="rotateG_07"></div>
+				<div class="blockG" id="rotateG_08"></div>
+			</div>
+
+			<div ng-show="vm.sectors.length == 0 && !vm.loader" class="alert alert-warning alert-meal" role="alert">
+				<span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+				<strong>Nenhum</strong> setor foi encontrado!
+			</div>
+			
+			<div class="text-center" ng-show="vm.displayLoaderPlus && !vm.loader">
+
+				<button class="btn btn-primary-clear" ng-click="vm.fnSearchPlus(filter.name)">
+					Carregar Mais 
+					<span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlus"></span>
+					<div id="circleG" ng-show="vm.loaderPlus">
+						<div id="circleG_1" class="circleG"></div>
+						<div id="circleG_2" class="circleG"></div>
+						<div id="circleG_3" class="circleG"></div>
+					</div>
+				</button>
+
+			</div>
+		
+		</div>
+	</div>
+
+	<!-- Modals -->
+
+	<div class="modal fade" id="myModalCard" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				
+				<div class="modal-header modal-header-primary">
+					<button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+					<h4>Cartões</h4>
+				</div>
+
+				<div class="modal-body">
+					
+					<form name="cardSectorForm">
+						<div class="form-group col-xs-10 col-sm-11">
+							<label>Cartões Disponíveis:</label>
+							<select class="form-control" ng-options="card.nr_cartao for card in vm.availableCards" ng-model="card" required> 
+								<option value="">Selecione o cartão</option>
+							</select>
+						</div>
+
+						<div class="col-xs-2 col-sm-1">
+							<button type="submit" class="btn btn-success-clear" style="margin-top: 25px; margin-bottom: 25px;"
+								ng-click="vm.fnAddCard(card)" ng-disabled="cardSectorForm.$invalid">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</div>
+						
+					</form>
+
+					<div class="hr"></div>
+
+					<div class="list-group">
+						<a class="list-group-item" ng-repeat="card in vm.sector.cartoes">
+							<button type="button" class="btn btn-danger-clear" style="float: right;" ng-click="vm.fnToRemove(card)">
+								<span class="glyphicon glyphicon-minus"></span>
+							</button>
+
+							<p class="list-group-item-text">
+								<label>Nº Cartão:</label> <span ng-bind="card.nr_cartao"></span>
+							</p>
+							<p class="list-group-item-text">
+								<label>Passe Livre:</label> <span ng-bind="card.ie_passe_livre_catraca == 'S' ? 'Sim' : 'Não'"></span>
+								<label>Situação:</label> <span ng-bind="card.ie_situacao == 'A' ? 'Ativo' : 'Inativo'"></span>
+							</p>
+						</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,439 @@
+<div class="container" ng-controller="cartaoCtrl as vm" ui-view resize
+	ng-init="filter.nr_cartao=''">
+
+	<div class="title-main">
+		<span>
+			<button class="btn  btn-success-clear" ng-click="vm.fnStatusNew()">
+				<span class="glyphicon glyphicon-plus"></span>
+				Novo
+			</button>
+	
+			<button class="btn btn-primary-clear" ng-click="vm.fnCloseCardForm()">
+				<span class="glyphicon glyphicon-search"></span>
+				Pesquisar
+			</button>
+		</span>
+
+		<h1>Gerenciar Cartões</h1>
+	</div>
+  
+	<div class="row" style="margin-top: 60px;" ng-if="!vm.statusNewAndUpdate">
+		<div class="col-xs-12">
+
+			<form name="formBuscar">
+				<div class="col-xs-12 col-sm-offset-1 col-sm-8 col-sm-8 col-lg-9">
+					<div class="form-group">
+						<input type="number" class="form-control"
+							placeholder=" Digite o número do cartão" ng-model="filter.nr_cartao">    
+					</div>    
+				</div>
+				
+				<div class="col-xs-12 col-sm-1 text-center">
+					<button type="submit" class="btn btn-info-clear-br" 
+						style="margin-bottom: 60px;" ng-click="vm.fnSearch(filter)">
+						<span class="glyphicon glyphicon-search"></span>
+						Buscar
+					</button>
+				</div>
+			</form>
+		
+		</div>
+	</div>
+
+	<div class="row" ng-if="vm.statusNewAndUpdate">
+		<div class="col-xs-12">
+			
+			<div class="panel-form">
+				<form name="cardForm">
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+						<p style="color: red; margin: -40px 0 30px;">Campos obrigatórios ( * )</p>
+					</div>
+
+					<div class="form-group col-xs-12 col-sm-8 col-sm-offset-2">
+						<label>Número do Cartão: <span class="required-field">*</span></label>
+						<input type="number" class="form-control" ng-model="vm.card.nr_cartao" required>
+					</div>
+
+					<div class="col-xs-12 col-sm-4 col-sm-offset-2">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<button type="button" class="btn btn-success-clear" style="float: right;"
+									data-toggle="modal" data-target="#myModalPeople" data-backdrop="static" data-keyboard="false"
+									ng-hide="vm.card.nr_cracha" ng-disabled="vm.card.cd_setor">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button> 
+
+								<button type="button" class="btn btn-danger-clear" style="float: right;"
+									ng-click="vm.fnRemovePeople()" ng-show="vm.card.nr_cracha">
+									<span class="glyphicon glyphicon-minus"></span>
+								</button>
+
+								<label>Adicionar Pessoa:</label> <br>								
+								<span ng-bind="vm.card.nm_pessoa_fisica.length > 0 ? (vm.card.nm_pessoa_fisica | Ucwords | ReduceString:30) : 'Nenhuma'"></span>
+							</div>
+						</div>
+					</div>
+		
+					<div class="col-xs-12 col-sm-4 ">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<button type="button" class="btn btn-success-clear" style="float: right;"
+									data-toggle="modal" data-target="#myModalSector" data-backdrop="static" data-keyboard="false"
+									ng-hide="vm.card.cd_setor" ng-disabled="vm.card.nr_cracha">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+
+								<button type="button" class="btn btn-danger-clear" style="float: right;"
+									ng-click="vm.fnRemoveSector()" ng-show="vm.card.cd_setor">
+									<span class="glyphicon glyphicon-minus"></span>
+								</button>
+
+								<label>Adicionar Setor:</label> <br>
+								<span ng-bind="vm.card.ds_setor.length > 0 ? (vm.card.ds_setor | Ucwords | ReduceString:30) : 'Nenhum'"></span>						
+							</div>
+						</div>
+					</div>
+
+					<div class="checkbox col-xs-12 col-sm-8 col-sm-offset-2">
+		
+						<label class="checkbox-inline">
+							<input type="checkbox"  
+								ng-checked="vm.card.ie_passe_livre_catraca == 'S'"
+								ng-click="vm.card.ie_passe_livre_catraca == 'S' ? vm.card.ie_passe_livre_catraca = 'N': vm.card.ie_passe_livre_catraca = 'S'"> 
+							<span style="font-weight: 600;">Passe livre na catraca</span>
+						</label>
+		
+						<label class="checkbox-inline align-ckeckbox-xs">
+							<input type="checkbox"
+								ng-checked="vm.card.ie_situacao == 'A'"
+								ng-click="vm.card.ie_situacao == 'A' ? vm.card.ie_situacao = 'I': vm.card.ie_situacao = 'A'"> 
+							<span style="font-weight: 600;">Situação</span>
+						</label>
+						
+					</div>
+		
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2 btn-center-xs" style="margin-top: 10px;">
+						<button type="submit" class="btn btn-lg btn-success-clear"
+							ng-disabled="cardForm.$invalid || vm.loaderBtnSave" ng-click="vm.fnSave(vm.card)">
+							<span class="glyphicon glyphicon-floppy-saved"></span>
+							Salvar
+							<div class="loader-btn-success" ng-show="vm.loaderBtnSave"></div>
+						</button>
+			
+						<button type="button" class="btn btn-lg btn-danger-clear"
+							 ng-click="vm.fnCloseCardForm()">
+							<span class="glyphicon glyphicon-floppy-remove"></span>
+							Cancelar
+						</button>
+			
+						<button type="button" class="btn btn-lg btn-primary-clear"
+							ng-click="vm.fnToCleanCard()">
+							<span class="glyphicon glyphicon-erase"></span>
+							Limpar
+						</button>
+					</div>
+				</form>
+
+				<div class="clearfix"></div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row" ng-show="windowWidth > 768">
+		<div class="col-xs-12">
+
+			<table class="table table-condensed table-responsive table-striped"
+				ng-hide="vm.loader">
+				<thead>
+					<tr>
+						<th>Nº Cartão</th>
+						<th>Pertence</th>
+						<th>Passe Livre</th>
+						<th>Situação</th>				
+						<th width="10%"></th>
+						<th width="10%"></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr ng-repeat="card in vm.cards">
+						<td> <span ng-bind="card.nr_cartao"></span> </td>
+						<td> 
+							<span ng-bind="card.nm_pessoa_fisica | Ucwords"></span>
+							<span ng-bind="card.ds_setor | Ucwords"></span>
+							<span ng-show="card.nm_pessoa_fisica == '' && card.ds_setor == ''">Niguém</span>
+						</td>
+						<td> <span ng-bind="card.ie_passe_livre_catraca == 'S' ? 'Sim' : 'Não'"></span> </td>
+						<td> <span ng-bind="card.ie_situacao == 'A' ? 'Ativo' : 'Inativo'"></span> </td>
+						<td>
+							<button class="btn btn-success-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+								ng-click="vm.fnStatusUpdate(card)">
+								<span class="glyphicon glyphicon-pencil"></span>
+								Editar
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+								ng-click="vm.fnDelete(card)" ng-hide="card.nr_cartao == vm.nr_cartao && vm.loaderBtnDelete">
+								<span class="glyphicon glyphicon-trash"></span>
+								Excluir
+							</button>
+
+							<div class="loader-btn-danger" style="margin-left:23px; margin-top: 10px;"
+								ng-show="card.nr_cartao == vm.nr_cartao && vm.loaderBtnDelete"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+
+	<div class="row" ng-show="windowWidth <= 768">
+		<div class="col-xs-12" ng-hide="vm.loader">
+
+			<div class="list-group text-center" ng-repeat="card in vm.cards">
+				<a class="list-group-item list-layout">				
+					<p class="list-group-item-text-responsive list-group-item-text-responsive-1"><label>N° Cartão:</label>  <span ng-bind="card.nr_cartao"></span></p>
+					<p class="list-group-item-text-responsive">
+						<label>Setor:</label>
+						<span ng-bind="card.nm_pessoa_fisica | Ucwords | ReduceString:20"></span>
+						<span ng-bind="card.ds_setor | Ucwords | ReduceString:20"></span>
+						<span ng-show="card.nm_pessoa_fisica == '' && card.ds_setor == ''">Niguém</span>
+					</p>
+					<p class="list-group-item-text-responsive list-group-item-text-responsive-1">
+						<label>Pertence:</label> 
+						<span ng-bind="card.ie_passe_livre_catraca == 'S' ? 'Sim' : 'Não'"></span>
+					</p>
+					<p class="list-group-item-text-responsive">
+						<label>Situação:</label>
+						<span ng-bind="card.ie_situacao == 'A' ? 'Ativo' : 'Inativo'"></span>
+					</p>
+					<p class="list-group-item-btn">
+						<button class="btn btn-success-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+							ng-click="vm.fnStatusUpdate(card)">
+							<span class="glyphicon glyphicon-pencil"></span>
+							Editar
+						</button>
+
+						<button class="btn btn-danger-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+							ng-click="vm.fnDelete(card)" ng-hide="card.nr_cartao == vm.nr_cartao && vm.loaderBtnDelete">
+							<span class="glyphicon glyphicon-trash"></span>
+							Excluir
+						</button>
+
+						<button class="loader-btn-danger" ng-show="card.nr_cartao == vm.nr_cartao && vm.loaderBtnDelete"></button>
+					</p>					
+				</a>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+
+			<div id="floatingBarsG" ng-show="vm.loader">
+				<div class="blockG" id="rotateG_01"></div>
+				<div class="blockG" id="rotateG_02"></div>
+				<div class="blockG" id="rotateG_03"></div>
+				<div class="blockG" id="rotateG_04"></div>
+				<div class="blockG" id="rotateG_05"></div>
+				<div class="blockG" id="rotateG_06"></div>
+				<div class="blockG" id="rotateG_07"></div>
+				<div class="blockG" id="rotateG_08"></div>
+			</div>
+
+			<div ng-show="vm.cards.length == 0 && !vm.loader" class="alert alert-warning alert-meal" role="alert">
+				<span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+				<strong>Nenhuma</strong> cartão foi encontrado!
+			</div>
+
+			<div class="text-center" ng-show="vm.displayLoaderPlus && !vm.loader">
+
+				<button class="btn btn-primary-clear" ng-click="vm.fnSearchPlus(filter)">
+					Carregar Mais 
+					<span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlus"></span>
+					<div id="circleG" ng-show="vm.loaderPlus">
+						<div id="circleG_1" class="circleG"></div>
+						<div id="circleG_2" class="circleG"></div>
+						<div id="circleG_3" class="circleG"></div>
+					</div>
+				</button>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Modals -->
+
+	<div class="modal fade" id="myModalPeople" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				
+				<div class="modal-header modal-header-primary">
+					<button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+					<h4>Buscar Pessoa</h4>
+				</div>
+
+				<div class="modal-body" ng-init="pesq.crachaNome=''">
+					
+					<form name="searchPeopleForm">
+						<div class="form-group col-xs-10 col-sm-11">
+							<input type="text" class="form-control" placeholder="Busque por crachá ou nome" ng-model="pesq.crachaNome">
+						</div>
+
+						<div class="col-xs-2 col-sm-1">
+							<button type="submit" class="btn btn-primary-clear" ng-disabled="searchPeopleForm.$invalid"
+								ng-click="vm.fnSearchPeople(pesq.crachaNome)">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</div>
+						
+					</form>
+
+					<div class="hr"></div>
+
+					<div class="list-group" ng-hide="vm.loaderModal">
+						<a class="list-group-item" ng-repeat="people in vm.peoples">
+							<button type="button" class="btn btn-success-clear" style="float: right;"
+								ng-click="vm.fnAddPeople(people); pesq.crachaNome = ''">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+
+							<p class="list-group-item-text"> 
+								<img ng-src="{{people.url_foto_perfil}}" class="img-circle" style="width: 50px; margin-right: 5px;">
+								<span ng-bind="people.nm_pessoa_fisica | Ucwords | ReduceString:30"></span>
+							</p>
+						</a>
+					</div>
+
+					<div class="alert alert-info" role="alert"
+						ng-show="!vm.loaderModal && vm.peoples.length == 0 && vm.firstSearchPeople">                      
+						<span class="glyphicon glyphicon-info-sign alert-icon"></span>
+						<strong>Pesquise</strong> um pessoa
+					</div>
+
+					<div class="alert alert-warning alert-meal" role="alert"
+						ng-show="!vm.loaderModal && vm.peoples.length == 0 && !vm.firstSearchPeople">
+						<span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+						<strong>Nenhuma</strong> pessoa foi encontrado!
+					</div>
+
+					<div id="floatingBarsG" ng-show="vm.loaderModal">
+						<div class="blockG" id="rotateG_01"></div>
+						<div class="blockG" id="rotateG_02"></div>
+						<div class="blockG" id="rotateG_03"></div>
+						<div class="blockG" id="rotateG_04"></div>
+						<div class="blockG" id="rotateG_05"></div>
+						<div class="blockG" id="rotateG_06"></div>
+						<div class="blockG" id="rotateG_07"></div>
+						<div class="blockG" id="rotateG_08"></div>
+					</div>
+
+					<div class="text-center" ng-show="vm.displayLoaderPlusModalPeople && !vm.loaderModal">
+
+						<button class="btn btn-primary-clear" ng-click="vm.fnSearchPeoplePlus(pesq.crachaNome)">
+							Carregar Mais 
+							<span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlusModal"></span>
+							<div id="circleG" ng-show="vm.loaderPlusModal">
+								<div id="circleG_1" class="circleG"></div>
+								<div id="circleG_2" class="circleG"></div>
+								<div id="circleG_3" class="circleG"></div>
+							</div>
+						</button>
+		
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="myModalSector" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					
+					<div class="modal-header modal-header-primary">
+						<button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+						<h4>Buscar Setor</h4>
+					</div>
+	
+					<div class="modal-body" ng-init="filter.name=''">
+						
+						<form name="cardSectorForm">
+							<div class="form-group col-xs-10 col-sm-11">
+								<input type="text" class="form-control" placeholder="Busque por crachá ou nome" ng-model="filter.name">
+							</div>
+	
+							<div class="col-xs-2 col-sm-1">
+								<button type="submit" class="btn btn-primary-clear" ng-disabled="cardSectorForm.$invalid"
+									ng-click="vm.fnSearchSector(filter.name)">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</div>
+						</form>
+	
+						<div class="hr"></div>
+
+						<ul class="list-group" ng-show="!vm.loaderModal">
+							<li class="list-group-item" ng-repeat="sector in vm.sectors">
+								<button type="button" class="btn btn-success-clear" style="float: right; margin-top: -5px;"
+									ng-click="vm.fnAddSector(sector); filter.name=''">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+								<span ng-bind="sector.ds_setor | Ucwords | ReduceString:30"></span>
+							</li>
+						</ul>
+
+						<div class="alert alert-info" role="alert" 
+							ng-show="!vm.loaderModal && vm.sectors.length == 0 && vm.firstSearchSector">                      
+							<span class="glyphicon glyphicon-info-sign alert-icon"></span>
+							<strong>Pesquise</strong> um setor
+						</div>
+
+						<div class="alert alert-warning alert-meal" role="alert"
+							ng-show="!vm.loaderModal && vm.sectors.length == 0 && !vm.firstSearchSector">
+							<span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+							<strong>Nenhum</strong> setor foi encontrado!
+						</div>
+
+						<div id="floatingBarsG" ng-show="vm.loaderModal">
+							<div class="blockG" id="rotateG_01"></div>
+							<div class="blockG" id="rotateG_02"></div>
+							<div class="blockG" id="rotateG_03"></div>
+							<div class="blockG" id="rotateG_04"></div>
+							<div class="blockG" id="rotateG_05"></div>
+							<div class="blockG" id="rotateG_06"></div>
+							<div class="blockG" id="rotateG_07"></div>
+							<div class="blockG" id="rotateG_08"></div>
+						</div>
+
+						<div class="text-center" ng-show="vm.displayLoaderPlusModalSector && !vm.loaderModal">
+
+							<button class="btn btn-primary-clear" ng-click="vm.fnSearchSectorPlus(filter.name)">
+								Carregar Mais 
+								<span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlusModal"></span>
+								<div id="circleG" ng-show="vm.loaderPlusModal">
+									<div id="circleG_1" class="circleG"></div>
+									<div id="circleG_2" class="circleG"></div>
+									<div id="circleG_3" class="circleG"></div>
+								</div>
+							</button>
+			
+						</div>
+
+					</div>
+	
+				</div>
+			</div>
+		</div>
+
+  </div>

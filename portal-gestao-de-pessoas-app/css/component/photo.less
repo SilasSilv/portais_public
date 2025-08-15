@@ -1,0 +1,50 @@
+.img-picture {
+	display: block;
+	width: 180px;
+	height: 190px;
+	margin: auto;
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+
+.input-file {
+	display: inline-block;
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.input-file + label {
+	display: inline-block;
+	font-weight: 600;
+	padding: 7px 13px;
+	margin: 0;
+	color: white;
+	background-color: @brand-primary;
+	border-radius: 5px;
+	
+}
+
+.input-file:focus + label,
+.input-file + label:hover {
+    background-color: darken(@brand-primary, 7%);
+}
+
+.input-file:active + label,
+.input-file + label:active {
+    background-color: darken(@brand-primary, 15%);
+}
+
+.input-file:focus + label,
+.input-file + label:focus {
+	outline: 5px auto -webkit-focus-ring-color;
+  	outline-offset: -2px;
+}
+
+.input-file + label {
+  	cursor: pointer;
+}
+

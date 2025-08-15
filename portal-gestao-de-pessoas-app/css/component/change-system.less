@@ -1,0 +1,171 @@
+.icon-system {
+    display: inline-block; 
+    width: 31.3333%; 
+    text-align: center;
+    border-radius: 5px;
+    margin: 5px 1%;
+    color: #000;
+}
+
+.icon-system img {
+    width: 40%;
+}
+
+.icon-system:hover {
+    background-color: rgba(0, 0, 0, 0.2); 
+}
+
+.icon-system:active {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.icon-system.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  background: #CCC;
+}
+
+/*
+	Loading System
+*/
+
+.cssload_body {
+	position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.cssload-loader {
+	top: ~"calc(50% - 116px)";
+	width: 116px;
+	height: 116px;
+	line-height: 116px;
+	margin: 39px auto;
+	position: relative;
+	box-sizing: border-box;
+	text-align: center;
+	z-index: 0;
+	text-transform: uppercase;
+		-o-text-transform: uppercase;
+		-ms-text-transform: uppercase;
+		-webkit-text-transform: uppercase;
+		-moz-text-transform: uppercase;
+}
+
+.cssload-loader:before,
+.cssload-loader:after {
+	opacity: 0;
+	box-sizing: border-box;
+		-o-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+	content: "\0020";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 77px;
+	border: 4px solid rgb(63,93,115);
+	box-shadow: 0 0 39px rgb(63,93,115), inset 0 0 39px rgb(63,93,115);
+		-o-box-shadow: 0 0 39px rgb(63,93,115), inset 0 0 39px rgb(63,93,115);
+		-ms-box-shadow: 0 0 39px rgb(63,93,115), inset 0 0 39px rgb(63,93,115);
+		-webkit-box-shadow: 0 0 39px rgb(63,93,115), inset 0 0 39px rgb(63,93,115);
+		-moz-box-shadow: 0 0 39px rgb(63,93,115), inset 0 0 39px rgb(63,93,115);
+}
+
+.cssload-loader:after {
+	z-index: 1;
+	animation: cssload-gogoloader 1.2s infinite 0.6s;
+		-o-animation: cssload-gogoloader 1.2s infinite 0.6s;
+		-ms-animation: cssload-gogoloader 1.2s infinite 0.6s;
+		-webkit-animation: cssload-gogoloader 1.2s infinite 0.6s;
+		-moz-animation: cssload-gogoloader 1.2s infinite 0.6s;
+}
+
+.cssload-loader:before {
+	z-index: 2;
+	animation: cssload-gogoloader 1.2s infinite;
+		-o-animation: cssload-gogoloader 1.2s infinite;
+		-ms-animation: cssload-gogoloader 1.2s infinite;
+		-webkit-animation: cssload-gogoloader 1.2s infinite;
+		-moz-animation: cssload-gogoloader 1.2s infinite;
+}
+
+
+
+@keyframes cssload-gogoloader {
+	0% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 0;
+	}
+}
+
+@-o-keyframes cssload-gogoloader {
+	0% {
+		-o-transform: scale(0);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		-o-transform: scale(1);
+		opacity: 0;
+	}
+}
+
+@-ms-keyframes cssload-gogoloader {
+	0% {
+		-ms-transform: scale(0);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		-ms-transform: scale(1);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes cssload-gogoloader {
+	0% {
+		-webkit-transform: scale(0);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		-webkit-transform: scale(1);
+		opacity: 0;
+	}
+}
+
+@-moz-keyframes cssload-gogoloader {
+	0% {
+		-moz-transform: scale(0);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		-moz-transform: scale(1);
+		opacity: 0;
+	}
+}

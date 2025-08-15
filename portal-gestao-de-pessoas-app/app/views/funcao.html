@@ -1,0 +1,155 @@
+<div class="container" ng-controller="funcaoCtrl as vm" ui-view
+	ng-init="filter.name=''">
+
+  	<div class="title-main">
+		<span>
+			<button class="btn  btn-success-clear" ng-click="vm.fnStatusNew()">
+				<span class="glyphicon glyphicon-plus"></span>
+				Novo
+			</button>
+	
+			<button class="btn btn-primary-clear" ng-click="vm.fnCloseOfficeForm()">
+				<span class="glyphicon glyphicon-search"></span>
+				Pesquisar
+			</button>
+		</span>
+
+		<h1>Gerenciar Funções</h1>
+	</div>
+
+	<div class="row" style="margin-top: 60px;" ng-if="!vm.statusNewAndUpdate">
+		<div class="col-xs-12">
+
+			<form name="formBuscar" class="search-home" >
+				<div class="col-xs-12 col-sm-offset-1 col-sm-8 col-sm-8 col-lg-9">
+					<div class="form-group">
+						<input type="text" class="form-control"
+							placeholder=" Digite o nome da função" ng-model="filter.name">    
+					</div>    
+				</div>
+								
+				<div class="col-xs-12 col-sm-1 text-center">
+					<button type="submit" class="btn btn-info-clear-br"
+						style="margin-bottom: 60px;" ng-click="vm.fnSearch(filter.name)">
+						<span class="glyphicon glyphicon-search"></span>
+						Buscar
+					</button>
+				</div>
+			</form>
+		
+		</div>
+	</div>
+
+	<div class="row" ng-if="vm.statusNewAndUpdate">
+		<div class="col-xs-12">
+			
+			<div class="panel-form">
+				<form name="officeForm">
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+						<p style="color: red; margin: -40px 0 30px;">Campos obrigatórios ( * )</p>
+					</div>
+
+					<div class="form-group col-xs-12 col-sm-8 col-sm-offset-2">
+						<label>Nome da Função: <span class="required-field">*</span></label>
+						<input type="text" class="form-control" ng-model="vm.office.ds_cargo" required>
+					</div>
+	
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2 btn-center-xs" style="margin-top: 5px;">
+						<button type="submit" class="btn btn-lg btn-success-clear" 
+							ng-disabled="officeForm.$invalid || vm.loaderBtnSave" ng-click="vm.fnSave(vm.office)">
+							<span class="glyphicon glyphicon-floppy-saved"></span>
+							Salvar
+							<div class="loader-btn-success" ng-show="vm.loaderBtnSave"></div>
+						</button>
+			
+						<button type="button" class="btn btn-lg btn-danger-clear" 
+							ng-click="vm.fnCloseOfficeForm()">
+							<span class="glyphicon glyphicon-floppy-remove"></span>
+							Cancelar
+						</button>
+			
+						<button type="button" class="btn btn-lg btn-primary-clear"
+							ng-click="vm.office.ds_cargo = ''">
+							<span class="glyphicon glyphicon-erase"></span>
+							Limpar
+						</button>
+					</div>
+				</form>
+
+				<div class="clearfix"></div>
+			</div>
+			
+		</div>
+	</div>	
+
+	<div class="row">
+		<div class="col-xs-12">
+
+			<table class="table table-condensed table-responsive table-striped"
+				ng-hide="vm.loader">
+				<thead>
+					<tr>
+						<th>Nome</th>				
+						<th width="10%"></th>
+						<th width="10%"></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr ng-repeat="office in vm.offices">
+						<td> <span ng-bind="office.ds_cargo | Ucwords"></span> </td>
+						<td>
+							<button class="btn btn-success-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+								ng-click="vm.fnStatusUpdate(office)">
+								<span class="glyphicon glyphicon-pencil"></span>
+								Editar
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger-clear btn-vertical" ng-disabled="vm.statusNewAndUpdate"
+								ng-click="vm.fnDelete(office)" ng-hide="office.cd_cargo == vm.cd_cargo && vm.loaderBtnDelete">
+								<span class="glyphicon glyphicon-trash"></span>
+								Excluir
+							</button>
+
+							<div class="loader-btn-danger" style="margin-left:23px; margin-top: 10px;"
+								ng-show="office.cd_cargo == vm.cd_cargo && vm.loaderBtnDelete"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div id="floatingBarsG" ng-show="vm.loader">
+				<div class="blockG" id="rotateG_01"></div>
+				<div class="blockG" id="rotateG_02"></div>
+				<div class="blockG" id="rotateG_03"></div>
+				<div class="blockG" id="rotateG_04"></div>
+				<div class="blockG" id="rotateG_05"></div>
+				<div class="blockG" id="rotateG_06"></div>
+				<div class="blockG" id="rotateG_07"></div>
+				<div class="blockG" id="rotateG_08"></div>
+			</div>
+
+			<div ng-show="vm.offices.length == 0 && !vm.loader" class="alert alert-warning alert-meal" role="alert">
+				<span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+				<strong>Nenhuma</strong> função foi encontrado!
+			</div>
+
+			<div class="text-center" ng-show="vm.displayLoaderPlus && !vm.loader">
+
+				<button class="btn btn-primary-clear" ng-click="vm.fnSearchPlus(filter.name)">
+					Carregar Mais 
+					<span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlus"></span>
+					<div id="circleG" ng-show="vm.loaderPlus">
+						<div id="circleG_1" class="circleG"></div>
+						<div id="circleG_2" class="circleG"></div>
+						<div id="circleG_3" class="circleG"></div>
+					</div>
+				</button>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>

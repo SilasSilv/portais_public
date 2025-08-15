@@ -1,0 +1,244 @@
+<div class="container" ng-controller="categoryCtrl as vm" ui-view
+    ng-init="filter.ds_tipo_categoria=''">
+    
+    <div class="title-main">
+        <span>
+            <button class="btn  btn-success-clear" ng-click="vm.fnNew()">
+                <span class="glyphicon glyphicon-plus"></span>
+                Novo
+            </button>
+    
+            <button class="btn btn-primary-clear" ng-click="vm.statusRegister = false;">
+                <span class="glyphicon glyphicon-search"></span>
+                Pesquisar
+            </button>
+        </span>
+
+        <h1>Gerenciar Categorias</h1>
+    </div>
+
+    <div class="row" ng-hide="vm.statusRegister" style="margin-top: 60px;">
+        <div class="col-xs-12">
+
+            <form name="formBuscar">
+                <div class="col-xs-12 col-sm-offset-1 col-sm-8 col-sm-8 col-lg-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control"
+                            placeholder=" Digite o nome da categoria" ng-model="filter.ds_tipo_categoria">    
+                    </div>    
+                </div>
+                
+                <div class="col-xs-12 col-sm-1 text-center">
+                    <button type="submit" class="btn btn-info-clear-br" 
+                        style="margin-bottom: 60px;" ng-click="vm.fnSearch(filter.ds_tipo_categoria)">
+                        <span class="glyphicon glyphicon-search"></span>
+                        Buscar
+                    </button>
+                </div>
+            </form>
+        
+        </div>
+    </div>
+
+    <div class="row" ng-show="vm.statusRegister">
+        <div class="col-xs-12">
+            
+            <div class="panel-form">
+                <form name="categoryTypeForm">
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                        <p style="color: red; margin: -40px 0 30px;">Campos obrigatórios ( * )</p>
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-8 col-sm-offset-2">
+                        <label>Nome: <span class="required-field">*</span></label>
+                        <input type="text" class="form-control" ng-model="vm.categoryType.ds_tipo_categoria" required>
+                    </div>
+        
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2 btn-center-xs" style="margin-top: 10px;">
+                        <button type="submit" class="btn btn-lg btn-success-clear"
+                            ng-disabled="categoryTypeForm.$invalid || vm.loaderBtnSave || vm.loaderBtnDelete" 
+                            ng-click="vm.fnSave(vm.categoryType)">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                            Salvar
+                            <div class="loader-btn-success" ng-show="vm.loaderBtnSave"></div>
+                        </button>
+            
+                        <button type="button" class="btn btn-lg btn-danger-clear"
+                            ng-disabled="vm.loaderBtnSave || vm.loaderBtnDelete" ng-click="vm.fnClose()">
+                            <span class="glyphicon glyphicon-floppy-remove"></span>
+                            Cancelar
+                        </button>
+            
+                        <button type="button" class="btn btn-lg btn-primary-clear"
+                            ng-disabled="vm.loaderBtnSave || vm.loaderBtnDelete" ng-click="vm.fnClear()">
+                            <span class="glyphicon glyphicon-erase"></span>
+                            Limpar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div id="floatingBarsG" ng-show="vm.loaderCategoriesTypes">
+                <div class="blockG" id="rotateG_01"></div>
+                <div class="blockG" id="rotateG_02"></div>
+                <div class="blockG" id="rotateG_03"></div>
+                <div class="blockG" id="rotateG_04"></div>
+                <div class="blockG" id="rotateG_05"></div>
+                <div class="blockG" id="rotateG_06"></div>
+                <div class="blockG" id="rotateG_07"></div>
+                <div class="blockG" id="rotateG_08"></div>
+            </div>
+
+            <table class="table table-condensed table-responsive table-striped"
+                ng-hide="vm.loaderCategoriesTypes || vm.categories_types.length  < 1">
+                <thead>
+                    <tr>
+                        <th width="10%">Adicionar Valores</th>
+                        <th>Nome</th>		
+                        <th width="10%"></th>
+                        <th width="10%"></th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr ng-repeat="category_type in vm.categories_types">
+                        <td>
+                            <button class="btn btn-success-clear"
+                                ng-click="vm.fnSearchValues(category_type.cd_tipo_categoria, category_type.ds_tipo_categoria)">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </td>
+                        <td ng-bind="category_type.ds_tipo_categoria"></td>
+                        <td>
+                            <button class="btn btn-success-clear btn-vertical" ng-disabled="vm.loaderBtnSave || vm.loaderBtnDelete"
+                                ng-click="vm.fnLoadEdit(category_type)">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                Editar
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger-clear btn-vertical" ng-disabled="vm.loaderBtnSave || vm.loaderBtnDelete"
+                                ng-click="vm.fnDelete(category_type.cd_tipo_categoria)"
+                                ng-hide="category_type.cd_tipo_categoria == vm.cd_tipo_categoria && vm.loaderBtnDelete">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                Excluir
+                            </button>
+
+                            <div class="loader-btn-danger" style="margin-left: 25px; margin-top: 15px;"
+                                ng-show="category_type.cd_tipo_categoria == vm.cd_tipo_categoria && vm.loaderBtnDelete"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-warning alert-meal" role="alert"
+                ng-hide="vm.loaderCategoriesTypes || vm.categories_types.length > 0">
+                <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                <strong>Nenhuma</strong> categoria foi encontrado!
+            </div>
+
+            <div class="text-center" ng-show="vm.displayLoaderPlus">
+                <button class="btn btn-primary-clear" ng-click="vm.fnSearchPlus(filter.ds_tipo_categoria)">
+                    Carregar Mais 
+                    <span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlus"></span>
+                    <div id="circleG" ng-show="vm.loaderPlus">
+                        <div id="circleG_1" class="circleG"></div>
+                        <div id="circleG_2" class="circleG"></div>
+                        <div id="circleG_3" class="circleG"></div>
+                    </div>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="myModalAddValues" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header modal-header-primary">
+                    <button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <h4>Adicionar valores</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-xs-12" style="font-size: 1.2em; margin-bottom: 10px;">
+                        <label>Categoria:</label> <span class="label label-info" ng-bind="vm.ds_tipo_categoria"></span>
+                    </div>
+
+                    <form name="categoryValuesForm">
+                        <div class="form-group col-xs-10 col-sm-11">
+                            <input type="text" class="form-control" placeholder="Valor da categoria" ng-model="vm.categoryValues.ds_categoria" required>
+                        </div>
+
+                        <div class="col-xs-2 col-sm-1">
+                            <button type="submit" class="btn btn-success-clear"
+                                ng-click="vm.fnToAdd(vm.categoryValues)" ng-disabled="categoryValuesForm.$invalid"
+                                ng-if="vm.ieRegisterCategoryValues" data-toggle="tooltip" data-placement="top" title="Adicionar">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+
+                            <button type="submit" class="btn btn-success-clear"
+                                ng-click="vm.fnToEdit(vm.categoryValues)" ng-disabled="categoryValuesForm.$invalid"
+                                ng-if="!vm.ieRegisterCategoryValues" data-toggle="tooltip" data-placement="top" title="Atualizar">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="hr"></div>
+
+
+                    <div id="floatingBarsG" ng-show="vm.loaderCategoriesValues">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+
+                    <div class="list-group" ng-hide="vm.loaderCategoriesValues">
+                        <a class="list-group-item list-btn" ng-repeat="category_values in vm.categories_values"> 
+                            <button type="button" class="btn btn-danger" ng-click="vm.fnToDelete(category_values)">
+                                <span class="glyphicon glyphicon-minus" 
+                                    ng-hide="vm.loaderDelete && vm.cd_categoria == category_values.cd_categoria"></span>
+                                <div class="loader-btn-danger-box"
+                                    ng-show="vm.loaderDelete && vm.cd_categoria == category_values.cd_categoria"></div>
+                            </button>
+
+                            <button type="button" class="btn btn-success" ng-click="vm.fnLoadEditCategoryValues(category_values)"
+                                style="margin-right: 10px;">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+
+                            <p class="list-group-item-text" ng-bind="category_values.ds_categoria"></p>
+                        </a>
+                    </div>
+
+                    <div class="alert alert-warning alert-meal" role="alert"
+                        ng-hide="vm.loaderCategoriesValues || vm.categories_values.length > 0">
+                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                        <strong>Nenhum</strong> valor de categoria foi encontrado!
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

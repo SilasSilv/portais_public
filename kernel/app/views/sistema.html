@@ -1,0 +1,217 @@
+<div class="container" ng-controller="systemCtrl as vm" ui-view
+    ng-init="filter.name=''">
+    
+    <div class="title-main">
+        <span>
+            <button class="btn btn-success-clear" ng-click="vm.fnNew()">
+                <span class="glyphicon glyphicon-plus"></span>
+                Novo
+            </button>
+    
+            <button class="btn btn-primary-clear" ng-click="vm.statusRegister = false;">
+                <span class="glyphicon glyphicon-search"></span>
+                Pesquisar
+            </button>
+        </span>
+
+        <h1>Gerenciar Sistemas</h1>
+    </div>
+
+    <div class="row" ng-hide="vm.statusRegister" style="margin-top: 60px;">
+        <div class="col-xs-12">
+
+            <form name="formBuscar">
+                <div class="col-xs-12 col-sm-offset-1 col-sm-8 col-sm-8 col-lg-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control"
+                            placeholder=" Digite o nome do sistema" ng-model="filter.ds_sistema">    
+                    </div>    
+                </div>
+                
+                <div class="col-xs-12 col-sm-1 text-center">
+                    <button type="submit" class="btn btn-info-clear-br" 
+                        style="margin-bottom: 60px;" ng-click="vm.fnSearch(filter.ds_sistema)">
+                        <span class="glyphicon glyphicon-search"></span>
+                        Buscar
+                    </button>
+                </div>
+            </form>
+        
+        </div>
+    </div>
+
+    <div class="row" ng-show="vm.statusRegister">
+        <div class="col-xs-12">
+            
+            <div class="panel-form">
+                <form name="systemForm">
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                        <p style="color: red; margin: -40px 0 30px;">Campos obrigatórios ( * )</p>
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-4">
+                        <label>Nome: <span class="required-field">*</span></label>
+                        <input type="text" class="form-control" ng-model="vm.system.nm_sistema" required>
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-0">
+                        <label>Estado: <span class="required-field">*</span></label>
+                        <select class="form-control" ng-model="vm.system.ie_situacao"
+                            ng-options="situacao as situacao.ds_situacao for situacao in vm.ieSituacoes" required>
+                            <option value="">Escolha o estado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-8 col-sm-offset-2">
+                        <label>Descrição: <span class="required-field">*</span></label>
+                        <textarea class="form-control" rows="3" ng-model="vm.system.ds_sistema" required></textarea>
+                    </div>
+
+                    <div class="col-xs-10 col-sm-7 col-sm-offset-2" style="margin-bottom: 15px;">
+                        <label>ID Sistema: <span class="required-field">*</span></label>
+                        <input type="text" class="form-control" ng-model="vm.system.cd_token" readonly>
+                    </div>
+
+                    <div class="form-group col-xs-2 col-sm-1"
+                        style="padding-left: 5px; margin-top: 27px; margin-bottom: 0px;">
+                        <button type="button" class="btn btn-info" ng-click="vm.fnGetID()">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </button>
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-8 col-sm-offset-2">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-discard-photo"
+                                ng-show="vm.ieBtnClearImgLogo" ng-click="vm.fnClearImgLogo()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                            <img class="img-responsive img-system" ng-src="{{vm.previewLogo}}">
+                        </div>
+
+                        <label for="exampleInputFile">Logo sistema:</label>
+                        <input type="file" id="idImgLogo" accept="image/jpeg,image/png" file-model="vm.img_logo">
+                        <p class="help-block">Imagem deve ter a mesma largura e altura</p>
+                    </div>                  
+        
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2 btn-center-xs" style="margin-top: 10px;">
+                        <button type="submit" class="btn btn-lg btn-success-clear"
+                            ng-disabled="systemForm.$invalid || vm.loaderBtnSave || vm.loaderBtnDelete" ng-click="vm.fnSave(vm.system, vm.img_logo)">
+                            <span class="glyphicon glyphicon-floppy-saved"></span>
+                            Salvar
+                            <div class="loader-btn-success" ng-show="vm.loaderBtnSave"></div>
+                        </button>
+            
+                        <button type="button" class="btn btn-lg btn-danger-clear"
+                                ng-click="vm.statusRegister = false;"
+                                ng-disabled="vm.loaderBtnSave || vm.loaderBtnDelete">
+                            <span class="glyphicon glyphicon-floppy-remove"></span>
+                            Cancelar
+                        </button>
+            
+                        <button type="button" class="btn btn-lg btn-primary-clear"
+                            ng-click="vm.fnClear()"
+                            ng-disabled="vm.loaderBtnSave || vm.loaderBtnDelete">
+                            <span class="glyphicon glyphicon-erase"></span>
+                            Limpar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div id="floatingBarsG" ng-show="vm.loader">
+                <div class="blockG" id="rotateG_01"></div>
+                <div class="blockG" id="rotateG_02"></div>
+                <div class="blockG" id="rotateG_03"></div>
+                <div class="blockG" id="rotateG_04"></div>
+                <div class="blockG" id="rotateG_05"></div>
+                <div class="blockG" id="rotateG_06"></div>
+                <div class="blockG" id="rotateG_07"></div>
+                <div class="blockG" id="rotateG_08"></div>
+            </div>
+
+            <div class="list-primary" ng-hide="vm.loader">
+
+                <div class="panel panel-default" ng-repeat="system in vm.systems">
+                    <div class="panel-body list-item">
+                        <div class="col-sm-12 col-md-10 col-lg-11">  
+                            <div class="col-sm-12 col-md-2 list-item-img">
+                                <img ng-show="system.img_logo == null" src="img/system-default.png" style="width: 48px;">         
+                                <img ng-show="system.img_logo != null" ng-src="{{system.img_logo}}" style="width: 48px;">
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-5">
+                                <p>
+                                    <span class="list-label">Nome:</span>
+                                    <span ng-bind="system.nm_sistema"></span>
+                                </p>                              
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-5">
+                                <p>
+                                    <span class="list-label">Status:</span>
+                                    <span ng-show="system.ie_situacao == 'A'" class="label label-success">Ativo</span>
+                                    <span ng-show="system.ie_situacao == 'M'" class="label label-warning">Manutenção</span>
+                                    <span ng-show="system.ie_situacao == 'I'" class="label label-danger">Inativo</span>
+                                </p>
+                            </div>
+
+                            <div class="col-sm-12 col-md-10">
+                                <p>
+                                    <span class="list-label">Descrição:</span>
+                                    <span ng-bind="system.ds_sistema || 'Nenhuma'"></span>
+                                </p>
+                            </div>     
+                            
+                        </div>
+
+                        <div class="col-sm-12 col-md-2 col-lg-1 text-center">
+                            <button class="btn btn-success-clear" ng-click="vm.fnLoadEdit(system)"
+                                ng-disabled="vm.loaderBtnSave|| vm.loaderBtnDelete">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                Editar
+                            </button>
+                            <button class="btn btn-danger-clear" ng-click="vm.fnDelete(system.cd_sistema)"
+                                ng-disabled="vm.loaderBtnSave|| vm.loaderBtnDelete">
+                                <span class="glyphicon glyphicon-trash" ng-hide="vm.loaderBtnDelete && vm.cd_sistema == system.cd_sistema"></span>
+                                <div class="loader-btn-danger" ng-show="vm.loaderBtnDelete && vm.cd_sistema == system.cd_sistema"></div>
+                                Excluir
+                            </button>
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div ng-show="vm.systems.length == 0" class="alert alert-warning alert-meal" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhum</strong> sistema foi encontrado!
+                </div>
+
+                <div class="text-center" ng-show="vm.displayLoaderPlus">
+                    <button class="btn btn-primary-clear" ng-click="vm.fnSearchPlus(filter.name)">
+                        Carregar Mais 
+                        <span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlus"></span>
+                        <div id="circleG" ng-show="vm.loaderPlus">
+                            <div id="circleG_1" class="circleG"></div>
+                            <div id="circleG_2" class="circleG"></div>
+                            <div id="circleG_3" class="circleG"></div>
+                        </div>
+                    </button>    
+                </div>
+
+            </div>
+
+        </div>  
+    </div>
+
+</div>
+

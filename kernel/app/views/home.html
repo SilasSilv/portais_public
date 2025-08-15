@@ -1,0 +1,85 @@
+<div class="container" ng-controller="homeCtrl as vm" ui-view>
+
+    <div id="floatingBarsG" ng-show="vm.loader">
+        <div class="blockG" id="rotateG_01"></div>
+        <div class="blockG" id="rotateG_02"></div>
+        <div class="blockG" id="rotateG_03"></div>
+        <div class="blockG" id="rotateG_04"></div>
+        <div class="blockG" id="rotateG_05"></div>
+        <div class="blockG" id="rotateG_06"></div>
+        <div class="blockG" id="rotateG_07"></div>
+        <div class="blockG" id="rotateG_08"></div>
+    </div>
+
+    <div class="row" ng-hide="vm.loader">    
+        <div class="col-xs-12 text-center">            
+        
+            <div class="col-xs-6 text-user-active">
+                <p ng-bind="vm.amount.logados"></p>
+                <p>Usuários Logados</p> 
+            </div>
+
+            <div class="col-xs-6 text-user-access">
+                <p ng-bind="vm.amount.acessos"></p>
+                <p>Total de Acessos</p>
+            </div>
+
+        </div>
+    </div> 
+
+    <div class="row" ng-hide="vm.loader">
+        <div class="col-xs-12">
+            <h4 class="title-home">Últimos sistemas cadastrados</h4>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="list-primary">
+
+                <div class="panel panel-default" ng-repeat="system in vm.systems">
+                    <div class="panel-body list-item">
+                        <div class="col-sm-12 col-md-10 col-lg-11">  
+                            <div class="col-sm-12 col-md-2 list-item-img">
+                                <img ng-show="system.img_logo == null" src="img/system-default.png" style="width: 48px;">                   
+                                <img ng-show="system.img_logo != null" ng-src="{{system.img_logo}}" style="width: 48px;">      
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-5">
+                                <p>
+                                    <span class="list-label">Nome:</span>
+                                    <span ng-bind="system.nm_sistema"></span>
+                                </p>                              
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-5">
+                                <p>
+                                    <span class="list-label">Status:</span>
+                                    <span ng-show="system.ie_situacao == 'A'" class="label label-success">Ativo</span>
+                                    <span ng-show="system.ie_situacao == 'M'" class="label label-warning">Manutenção</span>
+                                    <span ng-show="system.ie_situacao == 'I'" class="label label-danger">Inativo</span>
+                                </p>
+                            </div>
+
+                            <div class="col-sm-12 col-md-10">
+                                <p>
+                                    <span class="list-label">Descrição:</span>
+                                    <span ng-bind="system.ds_sistema || 'Nenhuma'"></span>
+                                </p>
+                            </div>     
+                            
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                
+                <div ng-show="vm.systems.length == 0" class="alert alert-warning alert-meal" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                    <strong>Nenhum</strong> sistema foi encontrado!
+                </div>
+
+            </div>
+        </div>        
+
+    </div>
+
+</div>

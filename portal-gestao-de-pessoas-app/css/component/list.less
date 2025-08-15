@@ -1,0 +1,119 @@
+.list-item {padding: 15px;}
+.list-item p {line-height: 15px;}
+
+.list-label {font-weight: bold;}
+
+/*Begin: Imagem Painel*/ 
+.list-item-img {padding: 0;}
+.list-item-img img {width: 70px; border-radius: 50%}
+
+@media only screen and (max-width: 992px) {
+   .list-item-img img {
+        display: block;
+        margin: auto;
+        margin-bottom: 15px;
+    }
+}
+/*End: Imagem Painel*/ 
+
+/*Begin: Layout do Conteúdo*/ 
+.list-item > div {padding: 0 1px;}
+.list-item-btn button.btn {float: right; margin-bottom: 5px;}
+
+@media only screen and (max-width: 991px) {
+    button.btn.list-item-btn-left {
+        float: left;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .list-item-btn > button {float: right;}
+}
+@media only screen and (max-width: 992px) {
+    .list-item-btn {text-align: center;}
+}
+/*End: Layout do Conteúdo*/
+
+.list-primary > .panel:nth-child(2n) {background-color: #E8E8E8;}
+.list-primary> .panel:hover {background-color: #CFCFCF;}
+
+.row-divider {
+    margin-bottom: 25px;
+    border: 0.001cm solid #606060;
+    border-radius: 10px;
+    opacity: 0.6;
+}
+
+/*
+Componente list do bootstrap
+*/
+
+.img-list {
+    display: block;
+    width: 70px;
+}
+
+.list-text p:first-child {
+    margin-top: 10px;
+}
+
+.list-layout {
+    padding: 8px;
+    padding-top: 15px;
+}
+
+.list-group-item-text-responsive {
+    width: 35%;
+    float: left;
+}
+
+.list-group-item-text-responsive-1 {
+    margin-left: 15%;
+}
+
+.list-group-item-btn {
+    width: 100%;
+    clear: both;
+}
+
+@media (max-width: 768px) {
+    .img-list {
+        margin: auto;
+    }
+
+    .list-text p:first-child {
+        padding-left: 10px;
+    }
+
+    .list-text p {
+        float: left;
+        width: 47%;
+        margin-top: 10px;
+        margin-left: 3%;
+    }    
+}
+
+@media (max-width: 400px) {
+    .list-layout {
+        padding: 0px;
+        padding-top: 7px;
+    }
+
+    .list-text p:first-child {
+        padding-left: 0;
+    }
+
+    .list-text p {
+        float: none;
+        width: 100%;
+        text-align: center;
+    }
+
+    .list-group-item-text-responsive {
+        width: 100%;
+    }
+    
+    .list-group-item-text-responsive-1 {
+        margin-left: initial;
+    }
+}

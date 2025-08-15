@@ -1,0 +1,574 @@
+<div class="container" ng-controller="grantCtrl as vm" ui-view>
+    
+    <div class="title-main">    
+        <h1>Conceder Permissões</h1>
+    </div>
+
+    <div ng-show="vm.ieSystems">
+        <div class="row" style="margin-top: 60px;">
+            <div class="col-xs-12">
+    
+                <form name="formBuscar">
+                    <div class="col-xs-12 col-sm-offset-1 col-sm-8 col-sm-8 col-lg-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control"
+                                placeholder=" Digite o nome do sistema" ng-model="filter.ds_sistema">    
+                        </div>    
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-1 text-center">
+                        <button type="submit" class="btn btn-info-clear-br" 
+                            style="margin-bottom: 60px;" ng-click="vm.fnSearch(filter.ds_sistema)">
+                            <span class="glyphicon glyphicon-search"></span>
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+        
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div id="floatingBarsG" ng-show="vm.loader">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+
+                <div class="list-primary" ng-hide="vm.loader">
+    
+                    <div class="panel panel-default" ng-repeat="system in vm.systems">
+                        <div class="panel-body list-item">
+                            <div class="col-sm-12 col-md-10 col-lg-11">  
+                                <div class="col-sm-12 col-md-2 list-item-img">
+                                    <img ng-show="system.img_logo == null" src="img/system-default.png" style="width: 48px;">
+                                    <img ng-show="system.img_logo != null" ng-src="{{system.img_logo}}" style="width: 48px;">      
+                                </div>
+    
+                                <div class="col-xs-6 col-sm-6 col-md-5">
+                                    <p>
+                                        <span class="list-label">Nome:</span>
+                                        <span ng-bind="system.nm_sistema"></span>
+                                    </p>                              
+                                </div>
+    
+                                <div class="col-xs-6 col-sm-6 col-md-5">
+                                    <p>
+                                        <span class="list-label">Status:</span>
+                                        <span ng-show="system.ie_situacao == 'A'" class="label label-success">Ativo</span>
+                                        <span ng-show="system.ie_situacao == 'M'" class="label label-warning">Manutenção</span>
+                                        <span ng-show="system.ie_situacao == 'I'" class="label label-danger">Inativo</span>
+                                    </p>
+                                </div>
+    
+                                <div class="col-sm-12 col-md-10">
+                                    <p>
+                                        <span class="list-label">Descrição:</span>
+                                        <span ng-bind="system.ds_sistema || 'Nenhuma'"></span>
+                                    </p>
+                                </div>   
+                            </div>
+    
+                            <div class="col-sm-12 col-md-2 col-lg-1 text-center">
+                                <button class="btn btn-info-clear btn-vertical"
+                                    ng-click="vm.fnSelectSystem(system)">
+                                    <span class="glyphicon glyphicon-check"></span>
+                                    Conceder
+                                </button>
+                            </div>
+                            
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+    
+                    <div ng-show="vm.systems.length == 0" class="alert alert-warning alert-meal" role="alert">
+                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                        <strong>Nenhum</strong> sistema foi encontrado!
+                    </div>
+    
+                    <div class="text-center" ng-show="vm.displayLoaderPlus">
+                        <button class="btn btn-primary-clear" ng-click="vm.fnSearchPlus(filter.name)">
+                            Carregar Mais 
+                            <span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlus"></span>
+                            <div id="circleG" ng-show="vm.loaderPlus">
+                                <div id="circleG_1" class="circleG"></div>
+                                <div id="circleG_2" class="circleG"></div>
+                                <div id="circleG_3" class="circleG"></div>
+                            </div>
+                        </button>    
+                    </div>
+    
+                </div>
+
+            </div>  
+        </div>
+
+    </div>
+
+    <div ng-hide="vm.ieSystems">
+        <div class="jumbotron" style="padding: 40px;">
+            <h1 style="font-size: 2.5em;">
+                <img ng-show="vm.system.img_logo == null" src="img/system-default.png">                   
+                <img ng-show="vm.system.img_logo != null" ng-src="{{vm.system.img_logo}}">
+                
+                {{ vm.system.nm_sistema }}           
+            </h1>
+            <p>
+                <button type="button" class="btn btn-primary" ng-click="vm.ieSystems=true;">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    Voltar
+                </button>
+            </p>
+        </div>
+
+        <div id="floatingBarsG" ng-show="vm.loader">
+            <div class="blockG" id="rotateG_01"></div>
+            <div class="blockG" id="rotateG_02"></div>
+            <div class="blockG" id="rotateG_03"></div>
+            <div class="blockG" id="rotateG_04"></div>
+            <div class="blockG" id="rotateG_05"></div>
+            <div class="blockG" id="rotateG_06"></div>
+            <div class="blockG" id="rotateG_07"></div>
+            <div class="blockG" id="rotateG_08"></div>
+        </div>
+
+        <div ng-if="!vm.reloadPermissionDOM"
+            ng-hide="vm.loader">
+            <div class="alert alert-warning alert-meal" role="alert" 
+                ng-show="vm.permissions.tipos_permissao.length == 0">
+                <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                <strong>Nenhum</strong> sistema foi encontrado!
+            </div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="myTabs" role="tablist" >
+                <li role="presentation" ng-class="$index == 0 ? 'active' : ''" ng-repeat="ds_tipo_permissao in vm.permissions.tipos_permissao">
+                    <a href="#permission{{$index}}" aria-controls="permission{{$index}}" role="tab" data-toggle="tab" ng-bind="ds_tipo_permissao"></a>
+                </li>
+            </ul>
+           
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div ng-repeat="ds_tipo_permissao in vm.permissions.tipos_permissao"
+                    role="tabpanel" class="tab-pane" ng-class="$index == 0 ? 'active' : ''"  id="permission{{$index}}">
+
+                    <ul class="list-group">
+                        <li class="list-group-item"
+                            ng-repeat="permission in vm.permissions[ds_tipo_permissao]">
+                            {{ permission.ds_titulo }}
+
+                            <div style="float: right;">
+                                <button type="button" class="btn btn-default"
+                                    ng-click="vm.fnPermissionDetails(permission)">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-default"
+                                    ng-click="vm.fnShowPermissionSector(permission)">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                </button>
+
+                                <button type="button" class="btn btn-default"
+                                    ng-click="vm.fnShowPermissionPeople(permission)">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </button>   
+                            </div>
+                            
+                            <div class="clearfix"></div>
+                        </li>
+                    </ul>
+                    
+                </div>                
+            </div> 
+
+        </div>
+
+        <!-- Modals -->
+        <div id="myModalInfoPermission" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+    
+                    <div class="modal-header modal-header-primary">
+                        <button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <h4>Informação da Permissão</h4>
+                    </div>
+    
+                    <div class="modal-body">
+                        <h4 style="margin-bottom: 30px;" ng-bind="vm.permission.ds_titulo"></h4>
+                        <p style="margin-bottom: 0px;"><label>Descrição:</label> {{ vm.permission.ds_descricao }}</p>
+                        <p>
+                            <label>Valor Padrão:</label> 
+                           
+                            <span class="label label-info" ng-show="vm.permission.vl_padrao == 'S'">Sim</span>
+                            <span class="label label-danger" ng-show="vm.permission.vl_padrao == 'N'">Não</span>
+                        </p>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+
+        <div id="myModalPeoplePermission" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+    
+                    <div class="modal-header modal-header-primary">
+                        <button class="btn btn-info" style="margin-right: 10px; float: left;"
+                            ng-click="vm.iePeoplePermission = false" ng-show="vm.iePeoplePermission">
+                            <span class="glyphicon glyphicon-arrow-left"></span>
+                        </button>
+
+                        <button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <h4>Permissão dos Usuários</h4>
+                    </div>
+    
+                    <div class="modal-body">
+
+                        <div class="text-center" ng-show="vm.loaderManipulate"
+                            style="margin-top: 40px; margin-bottom: 40px;">
+                            <div class="loader-permission"></div>
+                        </div>
+                        
+                        <div ng-hide="vm.loaderManipulate">
+                            <div ng-hide="vm.iePeoplePermission">
+
+                                <button class="btn btn-block btn-success" style="margin-bottom: 20px;"
+                                    ng-click="vm.iePeoplePermission = true">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Adicionar Pessoa
+                                </button>
+        
+                                <form name="searchPeoplePermissionForm">
+                                    <div class="form-group col-xs-10 col-sm-11"
+                                        style="padding: 0;">
+                                        <input type="text" class="form-control" placeholder="Busque por crachá ou nome" 
+                                            ng-model="vm.pesqPermissionPeople.crachaNome">
+                                    </div>
+            
+                                    <div class="col-xs-2 col-sm-1">
+                                        <button type="submit" class="btn btn-primary-clear" ng-disabled="searchPeoplePermissionForm.$invalid"
+                                            ng-click="vm.fnSearchPermissionPeople(vm.pesqPermissionPeople)">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </div>
+                                </form>
+    
+                                <div class="hr"></div>
+                                    
+                                <div id="floatingBarsG" ng-show="vm.loaderPermissionPeople">
+                                    <div class="blockG" id="rotateG_01"></div>
+                                    <div class="blockG" id="rotateG_02"></div>
+                                    <div class="blockG" id="rotateG_03"></div>
+                                    <div class="blockG" id="rotateG_04"></div>
+                                    <div class="blockG" id="rotateG_05"></div>
+                                    <div class="blockG" id="rotateG_06"></div>
+                                    <div class="blockG" id="rotateG_07"></div>
+                                    <div class="blockG" id="rotateG_08"></div>
+                                </div>
+                            
+                                <div ng-hide="vm.loaderPermissionPeople">
+    
+                                    <div class="alert alert-warning alert-meal" role="alert"
+                                        ng-show="vm.permissionsPeople.length == 0">
+                                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                                        <strong>Não</strong> foi encontrados nenhuma permissão concedida!
+                                    </div>
+            
+                                    <div class="list-group">
+                                        <a class="list-group-item" ng-repeat="permission in vm.permissionsPeople">
+                                            <button type="button" class="btn btn-danger-clear" style="float: right;"
+                                                ng-click="vm.fnRevokePeople(permission)">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                
+                                            <p class="list-group-item-text" ng-bind="permission.nm_pessoa_fisica | Ucwords"></p>
+        
+                                            <div class="form-group">
+                                                <select class="form-control" ng-model="permission.vl_pf"
+                                                    ng-options="option.value as option.name for option in vm.permissionOptions"
+                                                    ng-change="vm.fnGrantUpdatePeople(permission)">
+                                                </select>
+                                            </div>
+                                        </a>
+                                    </div>
+    
+                                    <div class="text-center" ng-show="vm.displayBtnPlusPermissionPeople">
+                                        <button class="btn btn-primary-clear" ng-click="vm.fnSearchPermissionPeoplePlus(vm.pesqPermissionPeople)">
+                                            Carregar Mais 
+                                            <span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPermissionPlusPeople"></span>
+                                            <div id="circleG" ng-show="vm.loaderPermissionPlusPeople">
+                                                <div id="circleG_1" class="circleG"></div>
+                                                <div id="circleG_2" class="circleG"></div>
+                                                <div id="circleG_3" class="circleG"></div>
+                                            </div>
+                                        </button>
+                                    </div>
+    
+                                </div>
+            
+                            </div>
+        
+                            <div ng-show="vm.iePeoplePermission">                            
+    
+                                <form name="searchPeopleForm">
+                                    <div class="form-group col-xs-10 col-sm-11">
+                                        <input type="text" class="form-control" placeholder="Busque por crachá ou nome" ng-model="vm.pesqPeople.crachaNome">
+                                    </div>
+            
+                                    <div class="col-xs-2 col-sm-1">
+                                        <button type="submit" class="btn btn-primary-clear" ng-disabled="searchPeopleForm.$invalid"
+                                            ng-click="vm.fnSearchPeople(vm.pesqPeople.crachaNome)">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </div>
+                                </form>
+            
+                                <div class="hr"></div>
+    
+                                <div id="floatingBarsG" ng-show="vm.loaderPeople">
+                                    <div class="blockG" id="rotateG_01"></div>
+                                    <div class="blockG" id="rotateG_02"></div>
+                                    <div class="blockG" id="rotateG_03"></div>
+                                    <div class="blockG" id="rotateG_04"></div>
+                                    <div class="blockG" id="rotateG_05"></div>
+                                    <div class="blockG" id="rotateG_06"></div>
+                                    <div class="blockG" id="rotateG_07"></div>
+                                    <div class="blockG" id="rotateG_08"></div>
+                                </div>
+                        
+                                <div ng-hide="vm.loaderPeople">
+    
+                                    <div class="alert alert-info" role="alert" ng-show="vm.firstSearchPeople">                      
+                                        <span class="glyphicon glyphicon-info-sign alert-icon"></span>
+                                        <strong>Pesquise</strong> um pessoa
+                                    </div>
+                
+                                    <div class="alert alert-warning alert-meal" role="alert" ng-show="!vm.firstSearchPeople && vm.peoples.length == 0">
+                                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                                        <strong>Nenhuma</strong> pessoa foi encontrado!
+                                    </div>
+    
+                                    <div class="list-group">
+                                        <a class="list-group-item" ng-repeat="people in vm.peoples">
+                                            <button type="button" class="btn btn-success-clear" style="float: right;"
+                                                ng-click="vm.fnGrantPeople(people)" ng-disabled="!people.vl_pf">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                
+                                            <p class="list-group-item-text"> 
+                                                <img ng-src="{{people.url_foto_perfil}}" class="img-circle" style="width: 50px; margin-right: 5px;">
+                                                <span ng-bind="people.nm_pessoa_fisica | Ucwords | ReduceString:30"></span>
+                                            </p>
+        
+                                            <div class="form-group" style="margin-top: 5px;">
+                                                <select class="form-control" ng-model="people.vl_pf"
+                                                    ng-options="option.value as option.name for option in vm.permissionOptions">
+                                                    <option value="">Escolher permissão</option>
+                                                </select>
+                                            </div>
+                                        </a>
+                                    </div>
+    
+                                    <div class="text-center" ng-show="vm.displayBtnPlusPeople">
+                                        <button class="btn btn-primary-clear" ng-click="vm.fnSearchPeoplePlus(vm.pesqPeople.crachaNome)">
+                                            Carregar Mais 
+                                            <span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlusPeople"></span>
+                                            <div id="circleG" ng-show="vm.loaderPlusPeople">
+                                                <div id="circleG_1" class="circleG"></div>
+                                                <div id="circleG_2" class="circleG"></div>
+                                                <div id="circleG_3" class="circleG"></div>
+                                            </div>
+                                        </button>                    
+                                    </div>
+    
+                                </div>
+        
+                            </div>
+                        </div>                        
+                        
+                    </div>    
+                </div>
+            </div>
+        </div>
+
+        <div id="myModalSectorPermission" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">    
+                    <div class="modal-header modal-header-primary">
+                        <button class="btn btn-info" style="margin-right: 10px; float: left;"
+                            ng-click="vm.ieSectorPermission = false" ng-show="vm.ieSectorPermission">
+                            <span class="glyphicon glyphicon-arrow-left"></span>
+                        </button>
+
+                        <button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <h4>Permissão dos Setores</h4>
+                    </div>
+    
+                    <div class="modal-body">
+                        <div class="text-center" ng-show="vm.loaderManipulate"
+                            style="margin-top: 40px; margin-bottom: 40px;">
+                            <div class="loader-permission"></div>
+                        </div>
+                        
+                        <div ng-hide="vm.loaderManipulate">
+                            <div ng-hide="vm.ieSectorPermission">
+
+                                <button class="btn btn-block btn-success" style="margin-bottom: 20px;"
+                                    ng-click="vm.ieSectorPermission = true">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Adicionar Setor
+                                </button>
+
+                                <form name="searchSectorPermissionForm">
+                                    <div class="form-group col-xs-10 col-sm-11"
+                                        style="padding: 0;">
+                                        <input type="text" class="form-control" placeholder="Busque por crachá ou nome" ng-model="vm.pesqPermissionSector.ds_setor">
+                                    </div>
+            
+                                    <div class="col-xs-2 col-sm-1">
+                                        <button type="submit" class="btn btn-primary-clear" ng-disabled="searchSectorPermissionForm.$invalid"
+                                            ng-click="vm.fnSearchPermissionSector(vm.pesqPermissionSector)">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <div class="hr"></div>
+                                
+                                <div id="floatingBarsG" ng-show="vm.loaderPermissionSector">
+                                    <div class="blockG" id="rotateG_01"></div>
+                                    <div class="blockG" id="rotateG_02"></div>
+                                    <div class="blockG" id="rotateG_03"></div>
+                                    <div class="blockG" id="rotateG_04"></div>
+                                    <div class="blockG" id="rotateG_05"></div>
+                                    <div class="blockG" id="rotateG_06"></div>
+                                    <div class="blockG" id="rotateG_07"></div>
+                                    <div class="blockG" id="rotateG_08"></div>
+                                </div>
+
+                                <div ng-hide="vm.loaderPermissionSector">
+                                    <div class="alert alert-warning alert-meal" role="alert"
+                                        ng-show="vm.permissionsSector.length == 0">
+                                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                                        <strong>Não</strong> foi encontrado nenhuma permissão concedida!
+                                    </div>
+            
+                                    <div class="list-group">
+                                        <a class="list-group-item" ng-repeat="permission in vm.permissionsSector">
+                                            <button type="button" class="btn btn-danger-clear" style="float: right;" 
+                                                ng-click="vm.fnRevokeSector(permission)">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                
+                                            <p class="list-group-item-text" ng-bind="permission.ds_setor"></p>
+        
+                                            <div class="form-group">
+                                                <select class="form-control" ng-model="permission.vl_setor"
+                                                    ng-options="option.value as option.name for option in vm.permissionOptions"
+                                                    ng-change="vm.fnGrantUpdateSector(permission)">
+                                                </select>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>                                
+                            </div>
+
+                            <div ng-show="vm.ieSectorPermission">                            
+
+                                <form name="searchSectorForm">
+                                    <div class="form-group col-xs-10 col-sm-11">
+                                        <input type="text" class="form-control" placeholder="Nome do setor" ng-model="vm.pesqSector.ds_setor">
+                                    </div>
+            
+                                    <div class="col-xs-2 col-sm-1">
+                                        <button type="submit" class="btn btn-primary-clear" ng-disabled="searchSectorForm.$invalid"
+                                            ng-click="vm.fnSearchSector(vm.pesqSector.ds_setor)">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </div>
+                                    
+                                </form>
+            
+                                <div class="hr"></div>
+
+                                <div id="floatingBarsG" ng-show="vm.loaderSector">
+                                    <div class="blockG" id="rotateG_01"></div>
+                                    <div class="blockG" id="rotateG_02"></div>
+                                    <div class="blockG" id="rotateG_03"></div>
+                                    <div class="blockG" id="rotateG_04"></div>
+                                    <div class="blockG" id="rotateG_05"></div>
+                                    <div class="blockG" id="rotateG_06"></div>
+                                    <div class="blockG" id="rotateG_07"></div>
+                                    <div class="blockG" id="rotateG_08"></div>
+                                </div>
+                        
+                                <div ng-hide="vm.loaderSector">
+
+                                    <div class="alert alert-info" role="alert" ng-show="vm.firstSearchSector">                      
+                                        <span class="glyphicon glyphicon-info-sign alert-icon"></span>
+                                        <strong>Pesquise</strong> um setor
+                                    </div>
+                
+                                    <div class="alert alert-warning alert-meal" role="alert" ng-show="!vm.firstSearchSector && vm.sectors.length == 0">
+                                        <span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+                                        <strong>Nenhum</strong> setor foi encontrado!
+                                    </div>
+
+                                    <div class="list-group">
+                                        <a class="list-group-item" ng-repeat="sector in vm.sectors">
+                                            <button type="button" class="btn btn-success-clear" style="float: right;"
+                                                ng-click="vm.fnGrantSector(sector)" ng-disabled="!sector.vl_setor">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                
+                                            <p class="list-group-item-text" ng-bind="sector.ds_setor"></p>
+
+                                            <div class="form-group">
+                                                <select class="form-control"ng-model="sector.vl_setor"
+                                                    ng-options="option.value as option.name for option in vm.permissionOptions">
+                                                    <option value="">Escolher permissão</option>
+                                                </select>
+                                            </div>
+                                        </a>
+                                    </div>
+                
+
+                                    <div class="text-center" ng-show="vm.displayBtnPlusSector">
+
+                                        <button class="btn btn-primary-clear" ng-click="vm.fnSearchSectorPlus(vm.pesqSector.ds_setor)">
+                                            Carregar Mais 
+                                            <span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlusSector"></span>
+                                            <div id="circleG" ng-show="vm.loaderPlusSector">
+                                                <div id="circleG_1" class="circleG"></div>
+                                                <div id="circleG_2" class="circleG"></div>
+                                                <div id="circleG_3" class="circleG"></div>
+                                            </div>
+                                        </button>
+                        
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>    
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,63 @@
+/*
+* Panel Fixed
+*/
+
+.panel-fixed {
+  left: 0;
+  position: fixed;
+  width: 100%;
+  margin: auto;
+  z-index: 1;
+  background-color: #FFF;
+}
+
+.panel-fixed > div {
+  margin: auto;
+  border-bottom: 1px solid #60606075;
+}
+
+.panel-fixed-home {
+  margin-top: 70px;
+}
+
+.panel-fixed-consultar {
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .panel-fixed > div {
+      width: ~"calc(100% - @{grid-gutter-width})";
+  }
+  
+  .panel-fixed-home {
+    margin-top: 110px;
+  }
+}
+
+@media (min-width: 768px) {
+  .panel-fixed > div {
+      width: (750px - @grid-gutter-width);
+  }
+}
+
+@media (min-width: 992px){
+  .panel-fixed > div {
+    width: (970px - @grid-gutter-width);
+  }
+}
+
+@media (min-width: 1200px) {
+  .panel-fixed > div {
+      width: (1170px - @grid-gutter-width);
+  }
+}
+
+/*
+* Panel Form 
+*/
+.panel-form {
+  margin-top: 60px; 
+  margin-bottom: 40px; 
+  padding-bottom: 60px; 
+  border-bottom: 1px solid #60606075;
+}

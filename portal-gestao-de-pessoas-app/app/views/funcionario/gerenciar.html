@@ -1,0 +1,428 @@
+<div class="container" ng-controller="funcionarioGerenciarCtrl as vm" ui-view>
+
+	<div class="title-main">
+		<span ng-hide="vm.viewUpdate">
+			<button class="btn  btn-success-clear" ng-click="vm.fnReload()">
+				<span class="glyphicon glyphicon-plus"></span>
+				Novo
+			</button>		
+		</span>
+
+		<h1 ng-hide="vm.viewUpdate">Cadastrar Funcionário</h1>
+		<h1 ng-show="vm.viewUpdate">Editar Funcionário</h1>
+	</div>
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" id="myTabs">
+		<li class="active"><a href="#idDadosPrincipal" data-toggle="tab">Dados Principais</a></li>
+		<li ng-class="vm.enablePermissions ? '' : 'disabled'">
+			<a href="#idPermissao" data-toggle="tab">Permissões</a>
+		</li>
+	</ul>
+
+	<div id="floatingBarsG" ng-show="vm.loader && vm.viewUpdate">
+		<div class="blockG" id="rotateG_01"></div>
+		<div class="blockG" id="rotateG_02"></div>
+		<div class="blockG" id="rotateG_03"></div>
+		<div class="blockG" id="rotateG_04"></div>
+		<div class="blockG" id="rotateG_05"></div>
+		<div class="blockG" id="rotateG_06"></div>
+		<div class="blockG" id="rotateG_07"></div>
+		<div class="blockG" id="rotateG_08"></div>
+	</div>
+
+	 <!-- Tab panes -->
+	 <div class="tab-content" ng-show="(!vm.viewUpdate) || (vm.viewUpdate && !vm.loader)">
+
+		<div role="tabpanel" class="tab-pane active" id="idDadosPrincipal">
+			<form name="peopleForm">
+
+				<div class="col-xs-12 col-xs-push-0 col-sm-4 col-sm-push-8 col-md-3 col-md-push-9"
+					style="margin-bottom: 10px;">
+					<div class="text-center">
+						<div style="position: relative;">
+							<button type="button" class="btn btn-primary btn-discard-photo" ng-click="vm.myImage = 'img/default.jpg'"
+								ng-hide="vm.myImage.indexOf('default') >= 0">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+							<img ng-src="{{vm.myImage}}" class="img-responsive img-picture img-thumbnail" alt="picture">
+						</div>
+												
+						<input type="file" id="fileInput" class="input-file" nv-file-select uploader="vm.imageUpload">
+						
+						<label for="fileInput">
+							<span class="glyphicon glyphicon-picture"></span>
+						</label>
+				
+						<button type="button" class="btn btn-primary" ng-click="vm.fnWebCam()">
+							<span class="glyphicon glyphicon-facetime-video"></span>
+						</button>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-xs-pull-0 col-sm-8 col-sm-pull-4 col-md-9 col-md-pull-3">
+					<div class="col-xs-12">
+						<p style="color: red; margin: 10px 0 10px;">Campos obrigatórios ( * )</p>
+					</div>
+							
+					<div class="form-group col-xs-12 col-sm-6 col-md-3">
+						<label>Nº Crachá: <span class="required-field">*</span></label>
+						<input type="number" class="form-control" ng-model="vm.person.nr_cracha" ng-required="true">
+					</div>
+			
+					<div class="form-group col-xs-12 col-sm-6 col-md-3" style="margin-top: 3px;">
+						<label>Login Alternativo:</label>
+						<input type="text" class="form-control" ng-model="vm.person.ds_login_alternativo">
+					</div>
+
+					<div class="form-group col-xs-12">
+						<label>Nome: <span class="required-field">*</span></label>
+						<input type="text" class="form-control" ng-model="vm.person.nm_pessoa_fisica" ng-required="true">
+					</div>
+			
+					<div class="form-group col-xs-12 col-sm-6">
+						<label>Setor: <span class="required-field">*</span></label>
+						<select class="form-control" ng-options="sector.ds_setor for sector in vm.sectors" 
+							ng-model="vm.person.setor" ng-disabled="vm.loaderSector" ng-required="true">
+							<option value="">
+								{{ vm.loaderSector ? 'Carregando...' : 'Nenhum'}}
+							</option>
+						</select>
+					</div>
+			
+					<div class="form-group col-xs-12 col-sm-6">
+						<label>Função: <span class="required-field">*</span></label>
+						<select class="form-control" ng-options="office.ds_cargo | Ucwords for office in vm.offices" 
+							ng-model="vm.person.cargo" ng-disabled="vm.loaderOffice" ng-required="true">
+							<option value="">
+									{{ vm.loaderSector ? 'Carregando...' : 'Nenhuma'}}
+							</option>
+						</select>						
+					</div>
+			
+					<div class="form-group col-xs-12 col-sm-6">
+						<label>Grupo:</label>
+						<select class="form-control" ng-options="group.nm_grupo for group in vm.groups" 
+							ng-model="vm.person.grupo" ng-disabled="vm.loaderGroup">
+							<option value="">
+								{{ vm.loaderSector ? 'Carregando...' : 'Nenhum'}}
+							</option>
+						</select>
+					</div>
+			
+					<div class="form-group col-xs-12 col-sm-6"
+						ng-class="peopleForm.ds_mail.$invalid ? 'has-error' : ''">
+						<label>Email:</label>
+						<input type="email" name="ds_mail" class="form-control" ng-model="vm.person.ds_mail">
+					</div>
+		
+					<div class="form-group col-xs-12 col-sm-6">
+						<label>Cartão:</label>
+						<select class="form-control" ng-options="card.nr_cartao for card in vm.cards" 
+							ng-model="vm.person.cartao" ng-disabled="vm.loaderCard">
+							<option value="">
+								{{ vm.loaderSector ? 'Carregando...' : 'Nenhum'}}
+							</option>
+						</select>
+					</div>
+
+					<div class="col-xs-12 col-sm-6">
+						<p ng-hide="vm.viewUpdate" style="margin-top: 15px;">
+							<label><span class="glyphicon glyphicon-lock"></span> Senha:</label>
+							A senha padrão é (Nº Crachá + 123), no primeiro acesso será solicitado para alterá-la.
+						</p>
+					
+						<button type="button" class="btn btn-info btn-form" 
+							ng-click="vm.person.ie_alterar_senha = vm.person.ie_alterar_senha != 'S' ? 'S' : 'N'"
+							ng-show="vm.viewUpdate" data-toggle="tooltip" data-placement="bottom" 
+							title="Ao resetar a senha ela fica (Nº Crachá + 123), no primeiro acesso será solicitado para alterá-la.">
+							<span class="glyphicon glyphicon-lock"></span>
+							Resetar senha
+							<span class="glyphicon glyphicon-repeat" ng-hide="vm.person.ie_alterar_senha == 'S'"></span>
+							<span class="glyphicon glyphicon-ok" ng-show="vm.person.ie_alterar_senha == 'S'"
+								style="color: green;"></span>
+						</button>
+					</div>
+
+					<div class="form-group col-xs-12 col-xs-push-0 col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6" ng-show="vm.viewUpdate"
+						style="margin-top: 15px;">
+						<label for="idData">Data de Demissão:</label>
+						<div class="input-group">
+							<input 	class="form-control"
+									name="nmData"
+									id="idData"
+									datetimepicker
+									ng-model="vm.person.dt_demissao"
+									options="vm.options"
+									placeholder="00/00/0000" readonly>
+
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+					
+					<div class="col-xs-12">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox"
+									ng-checked="vm.person.ie_situacao == 'A'"
+									ng-click="vm.person.ie_situacao = vm.person.ie_situacao != 'A' ? 'A' : 'I'"> 
+								<span style="font-weight: 600;">Situação</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-xs-12 btn-center-xs">
+					<button type="submit" class="btn btn-lg btn-success-clear"
+						ng-disabled="peopleForm.$invalid" ng-click="vm.fnSave(vm.person, true)">
+						<span class="glyphicon glyphicon-floppy-saved"></span>
+						Salvar
+						<div class="loader-btn-success" ng-show="vm.loaderSavePeople"></div>
+					</button>
+
+					<button type="button" class="btn btn-lg btn-primary-clear" ng-click="vm.fnCleanPerson()">
+						<span class="glyphicon glyphicon-erase"></span>
+						Limpar
+					</button>
+
+				</div>
+			</form>
+
+			<!-- Modal Upload -->
+			<div id="myModalPhotoUpload" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						
+						<div class="modal-header modal-header-primary">
+							<button type="button" class="btn btn-danger btn-modal-close" data-dismiss="modal" aria-label="Close">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+							<h4>Recortar Imagem</h4>
+						</div>
+
+						<div class="modal-body">
+							<img-crop image="vm.myImageTemp" result-image="vm.myCroppedImage" result-image-format="{{vm.imageFormat}}" area-type="square" class="crop-area"></img-crop>
+						</div>
+
+						<div class="modal-footer text-center">
+						  	<button type="button" class="btn btn-primary" ng-click="vm.fnPhotoCutOutUpload()">
+								<span class="glyphicon glyphicon-scissors"></span>
+								Recortar
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Uplaod -->
+			<div id="myModalPhotoWebCam" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						
+						<div class="modal-header modal-header-primary">
+							<button type="button" class="btn btn-danger btn-modal-close" ng-click="vm.fnCloseModalWebCam()">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+							<h4>Tirar Foto</h4>
+						</div>
+	
+						<div class="modal-body">							
+							<div class="embed-responsive embed-responsive-4by3">
+								<div id="floatingBarsG" ng-show="vm.loaderWebCam"
+									style="margin-top: 35%">
+									<div class="blockG" id="rotateG_01"></div>
+									<div class="blockG" id="rotateG_02"></div>
+									<div class="blockG" id="rotateG_03"></div>
+									<div class="blockG" id="rotateG_04"></div>
+									<div class="blockG" id="rotateG_05"></div>
+									<div class="blockG" id="rotateG_06"></div>
+									<div class="blockG" id="rotateG_07"></div>
+									<div class="blockG" id="rotateG_08"></div>
+								</div>
+
+								<video autoplay="true" id="videoElement" ng-hide="vm.loaderWebCam || vm.photoTaken"></video>
+
+								<img-crop image="vm.myImageTemp" result-image="vm.myCroppedImage" result-image-format="{{vm.imageFormat}}"
+									area-type="square" class="crop-area" ng-show="vm.photoTaken"></img-crop>
+							</div>
+
+						</div>
+	
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" ng-click="vm.fnPhotoCutOutWebCam()" ng-show="vm.photoTaken">
+								<span class="glyphicon glyphicon-scissors"></span>
+								Recortar
+							</button>
+							<button type="button" class="btn btn-info" ng-click="vm.fnSnapShot()" ng-hide="vm.photoTaken">
+								<span class="glyphicon glyphicon-camera"></span>
+								Capturar
+							</button>
+						</div>
+	
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Alert User Dismissed-->
+			<div id="myModalAlertDismissed" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4>Atenção</h4>
+						</div>
+						<div class="modal-body">
+							Você informou a data de demissão desse funcionário, ele será desativado e não terá mais acesso aos portais, solicitações de refeições posterior a data de demissão vão ser removidas, deseja continuar?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
+							<button type="button" class="btn btn-success" data-dismiss="modal"
+								ng-click="vm.person.ie_situacao = 'I'; vm.fnSave(vm.person)">Sim</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div role="tabpanel" class="tab-pane" id="idPermissao" ng-controller="funcionarioPermissaoCtrl as vmp">
+			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+				<div id="floatingBarsG" ng-show="vmp.loader">
+					<div class="blockG" id="rotateG_01"></div>
+					<div class="blockG" id="rotateG_02"></div>
+					<div class="blockG" id="rotateG_03"></div>
+					<div class="blockG" id="rotateG_04"></div>
+					<div class="blockG" id="rotateG_05"></div>
+					<div class="blockG" id="rotateG_06"></div>
+					<div class="blockG" id="rotateG_07"></div>
+					<div class="blockG" id="rotateG_08"></div>
+				</div>
+				
+				<form ng-hide="vmp.loader">					
+					<div class="panel panel-default" ng-repeat="system in vmp.permissions">
+						<div class="panel-heading" role="tab" id="heading{{$index}}">
+							<h4 class="panel-title" >
+								<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}" aria-expanded="false" aria-controls="collapse{{$index}}"
+									style="text-decoration: none;" ng-click="system.toogle = !system.toogle">
+									<button class="btn btn-info-clear" style="margin-right: 10px;">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button> 
+									
+									<strong ng-bind="system.nm_sistema"></strong>
+								</a>
+							</h4>
+						</div>
+						
+						<div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$index}}">
+							<div class="col-xs-12" ng-repeat="permission_type in system.tipos_permissoes">
+								
+								<ul class="list-group">
+									<li class="list-group-item list-header">
+										<strong ng-bind="permission_type.ds_tipo_permissao"></strong>
+									</li>
+									<li class="list-group-item" ng-repeat="permission in permission_type.permissoes">
+										<div class="col-xs-12 col-sm-9 col-md-10">
+											<span ng-bind="permission.ds_titulo"></span>
+										</div>
+
+										<div class="col-xs-12 col-sm-3 col-md-2">
+											<button class="btn btn-default" ng-click="vmp.fnShowModal(permission)">
+												<span class="glyphicon glyphicon-info-sign"></span>
+											</button>
+											<button class="btn " 
+												ng-class="permission.vl_permissao == 'S' ? 'btn-success' : 'btn-default'"
+												ng-click="vmp.fnManipulatePermission(permission, 'S')">
+												<span class="glyphicon glyphicon-ok"></span>
+											</button>
+											<button class="btn "
+												ng-class="permission.vl_permissao == 'N' ? 'btn-danger' : 'btn-default'"  
+												ng-click="vmp.fnManipulatePermission(permission, 'N')">
+												<span class="glyphicon glyphicon glyphicon-remove"></span>
+											</button>
+										</div>
+										<div class="clearfix"></div>
+									</li>
+								</ul>
+
+							</div>
+							
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 btn-center-xs" style="margin-top: 15px;">
+						<button class="btn btn-lg btn-success-clear" 
+							ng-disabled="!vmp.permissionsUpdateStatus" ng-click="vmp.fnSalvar()">
+							<span class="glyphicon glyphicon-floppy-saved"></span>
+							Salvar
+							<div class="loader-btn-success" ng-show="vmp.loaderSave"></div>
+						</button>
+			
+						<button class="btn btn-lg btn-primary-clear" ng-click="vmp.fnClearPermissions()">
+							<span class="glyphicon glyphicon glyphicon-erase"></span>
+							Limpar Permissões
+						</button>
+			
+					</div>
+				</form>
+
+				<!-- Modal -->
+
+				<div id="myModalDetailsPermission" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+			
+							<div class="modal-header modal-header-primary">
+								<button type="button" class="btn btn-danger btn-modal-close" 
+										data-dismiss="modal" aria-label="Close">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">
+									Detalhes da permissão
+								</h4>
+							</div>
+						
+							<div class="modal-body">
+								<h4 ng-bind="vmp.permissionDetails.ds_titulo"></h4>
+								<p ng-bind="vmp.permissionDetails.ds_descricao"></p>
+								<p>
+									<label>Padrão:</label>
+									<span class="label label-success" ng-show="vmp.permissionDetails.vl_padrao == 'S'">Sim</span>
+									<span class="label label-danger" ng-show="vmp.permissionDetails.vl_padrao == 'N'">Não</span>
+								</p>
+								<p>
+									<label>Setor:</label>
+									<span class="label label-default" ng-show="vmp.permissionDetails.vl_setor == ''">Nenhuma</span>
+									<span class="label label-success" ng-show="vmp.permissionDetails.vl_setor == 'S'">Sim</span>
+									<span class="label label-danger" ng-show="vmp.permissionDetails.vl_setor == 'N'">Não</span>
+								</p>
+							</div>	
+			
+						</div>
+					</div>
+				</div>
+	
+			</div>			
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#myTabs a').click(function (e) {
+				if ($(this).parent().hasClass('disabled')) {				
+						return false;
+				}
+				
+				$(this).tab('show');
+				e.preventDefault();
+			});
+
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip({trigger : 'hover'});
+			})
+		});
+	</script>	
+</div>

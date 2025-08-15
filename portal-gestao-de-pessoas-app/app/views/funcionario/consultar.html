@@ -1,0 +1,151 @@
+<div class="container" ng-controller="funcionarioConsultarCtrl as vm" ui-view
+	ng-init="filter.crachaNome=''">
+
+    <div class="title-main">
+		<h1>Consultar Funcionários</h1>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+
+			<form name="formBuscar" class="form-search">
+				<div class="col-xs-12 col-sm-offset-1 col-sm-8 col-sm-8 col-lg-9">
+					<div class="form-group">
+						<input type="text" class="form-control" name="crachaNome" ng-model="vm.filter.crachaNome"
+							placeholder=" Digite o crachá ou nome para buscar o funcionário">    
+					</div>    
+				</div>
+				
+				<div class="col-xs-12 col-sm-1 text-center">
+					<button type="submit" class="btn btn-info-clear-br" style="margin-bottom: 15px;"
+						ng-click="vm.fnSearch(vm.filter.crachaNome)">
+						<span class="glyphicon glyphicon-search"></span>
+						Buscar
+					</button>
+				</div>
+			</form>
+			
+			<div class="row panel-fixed-consultar">
+				<div class="col-xs-12">
+					<div class="list-primary" ng-hide="vm.loader">
+		
+						<div class="panel panel-default" ng-repeat="people in vm.peoples">
+							<div class="panel-body list-item">
+								
+								<div class="col-sm-12 col-md-10 col-lg-11">  
+									<div class="col-sm-12 col-md-2 list-item-img">
+										<img ng-src="{{people.url_foto_perfil}}">      
+									</div>
+		
+									<div class="col-xs-6 col-sm-6 col-md-5">
+										<p>
+											<span class="list-label">Nº Crachá:</span>
+											<span ng-bind="people.nr_cracha"></span>
+										</p>                              
+									</div> 
+									
+									<div class="col-xs-6 col-sm-6 col-md-5">
+										<p>
+											<span class="list-label">Função:</span>
+											<span ng-bind="people.ds_cargo | Ucwords"></span>
+										</p>                                
+									</div>
+
+									<div class="col-xs-6 col-sm-6 col-md-5">
+										<p>
+											<span class="list-label">Nome:</span>
+											<span ng-bind="people.nm_pessoa_fisica | Ucwords"></span>
+										</p>
+									</div>    
+		
+									<div class="col-xs-6 col-sm-6 col-md-5">
+										<p>
+											<span class="list-label">Setor:</span>
+											<span ng-bind="people.ds_setor | Ucwords "></span>
+										</p>
+									</div>
+
+									<div class="col-xs-12 col-sm-6 col-md-5">
+										<p>
+											<span class="list-label">Email:</span>
+											<span ng-bind="people.ds_mail"></span>
+										</p>
+									</div>
+									
+									<div class="col-xs-12 col-sm-6 col-md-5">
+										<p>
+											<span class="list-label">Situacao:</span>
+											<span class="label label-info" ng-show="people.ie_situacao == 'A'">Ativo</span>
+											<span class="label label-danger" ng-hide="people.ie_situacao == 'A'">Inativo</span>
+										</p>
+									</div>
+								</div>
+								
+								<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 list-item-btn">                                                   
+									<div class="col-xs-6 col-sm-6 col-md-12">
+										<a class="btn btn-success-clear btn-vertical" style="float: right;"
+											href="#!/gestao-pessoas/funcionario/editar/{{people.nr_cracha}}">
+											<span class="glyphicon glyphicon-pencil"></span>
+											Editar
+										</a>
+									</div>
+		
+									<div class="col-xs-6 col-sm-6 col-md-12">
+										<button class="btn btn-danger-clear btn-vertical list-item-btn-left"
+											ng-click="vm.fnDelete(people, vm.filter.crachaNome)" ng-hide="vm.loaderBtnDelete">
+											<span class="glyphicon glyphicon-trash"></span>
+											Excluir 
+										</button>  
+										<div class="list-loader loader-btn-danger" style="margin: 15px 21px;"
+											ng-show="vm.loaderBtnDelete && people.nr_cracha == vm.nr_cracha"></div>
+									</div>
+								</div>
+								
+								<div class="clearfix"></div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+		
+					<div id="floatingBarsG" ng-show="vm.loader">
+						<div class="blockG" id="rotateG_01"></div>
+						<div class="blockG" id="rotateG_02"></div>
+						<div class="blockG" id="rotateG_03"></div>
+						<div class="blockG" id="rotateG_04"></div>
+						<div class="blockG" id="rotateG_05"></div>
+						<div class="blockG" id="rotateG_06"></div>
+						<div class="blockG" id="rotateG_07"></div>
+						<div class="blockG" id="rotateG_08"></div>
+					</div>
+		
+					<div ng-show="vm.peoples.length == 0 && !vm.loader" class="alert alert-warning alert-meal" role="alert">
+						<span class="glyphicon glyphicon-warning-sign alert-icon"></span>
+						<strong>Nenhuma</strong> pessoa foi encontrada!
+					</div>
+					
+					<div class="text-center" ng-show="vm.displayLoaderPlus && !vm.loader">
+		
+						<button class="btn btn-primary-clear" ng-click="vm.fnSearchPlus(filter.crachaNome)">
+							Carregar Mais 
+							<span class="glyphicon glyphicon-menu-down" ng-hide="vm.loaderPlus"></span>
+							<div id="circleG" ng-show="vm.loaderPlus">
+								<div id="circleG_1" class="circleG"></div>
+								<div id="circleG_2" class="circleG"></div>
+								<div id="circleG_3" class="circleG"></div>
+							</div>
+						</button>
+		
+					</div>
+		
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
